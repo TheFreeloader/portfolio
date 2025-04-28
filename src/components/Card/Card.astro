@@ -1,0 +1,18 @@
+---
+import styles from "./Card.module.css";
+interface Props {
+  title: string;
+  icon: string;
+}
+
+const { title, icon } = Astro.props;
+---
+
+<div class={styles.card}>
+  <div class={styles.cardIcon}>
+    <img src={icon} alt="" aria-hidden="true" />
+  </div>
+  <div class={styles.cardContent}>
+    <h3 class={styles.cardTitle}>{title}</h3>
+  </div>
+</div>
