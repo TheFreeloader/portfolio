@@ -1,0 +1,108 @@
+.card_wrapper {
+  cursor: pointer;
+}
+
+.modal_container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.modal_header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  cursor: move;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.modal_content {
+  background-image: url("../../assets/modalbg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 7px solid #362b14;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 50vh;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transform: translate(0px, 0px);
+  overflow: visible;
+  pointer-events: auto;
+}
+
+.close_button_container {
+  background-image: url("../../assets/buttonbg.png");
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  overflow: visible;
+  pointer-events: auto;
+}
+
+.close_button {
+  position: absolute;
+  display: flex;
+  top: 53px;
+  right: 57px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+  z-index: 20;
+}
+
+.close_button:hover {
+  color: white;
+  font-weight: 900;
+}
+
+.modal_body {
+  position: relative;
+  z-index: 5;
+  padding-top: 10px;
+  max-height: calc(50vh - 70px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: -5px;
+  padding: 5px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal_body::-webkit-scrollbar {
+  display: none;
+}
+
+.about_title {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.about_text {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.dragging {
+  user-select: none;
+}

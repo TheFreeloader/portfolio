@@ -1,12 +1,15 @@
 .card {
   display: flex;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  padding: 1.5rem;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
+}
+.card_clicked {
+  background-image: url("../../assets/Subtract.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .card:hover {
@@ -15,7 +18,7 @@
 }
 
 .cardIcon {
-  margin-bottom: 1rem;
+  background-color: rebeccapurple;
 }
 
 .cardIcon img {
@@ -26,6 +29,6 @@
 .cardTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
   color: #ffffff;
+  font-family: "Poppins", sans-serif;
 }

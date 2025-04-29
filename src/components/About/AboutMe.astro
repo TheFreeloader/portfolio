@@ -1,16 +1,165 @@
 ---
 import styles from "./AboutMe.module.css";
+import Card from "../Card/Card.astro";
+import About from "../../assets/about.svg";
 ---
 
-<div class={styles.about_container}>
-  <h2 class={styles.about_title}>About Me</h2>
-  <p class={styles.about_text}>
-    I am a passionate web developer with a love for creating beautiful and
-    functional websites. I have experience in various technologies and
-    frameworks, and I am always eager to learn more.
-  </p>
-  <p class={styles.about_text}>
-    In my free time, I enjoy exploring new technologies, contributing to
-    open-source projects, and sharing my knowledge with others.
-  </p>
+<div>
+  <div class={styles.card_wrapper} id="aboutCard">
+    <Card title="About Me" icon={About.src} />
+  </div>
+  <div class={styles.modal_container} id="modalOverlay">
+    <div class={styles.modal_content} id="aboutContainer">
+      <div class={styles.modal_header} id="modalHeader"></div>
+      <div class={styles.close_button_container}>
+        <span class={styles.close_button} id="closeModal">&times;</span>
+      </div>
+      <div class={styles.modal_body}>
+        <h2 class={styles.about_title}>About Me</h2>
+        <p class={styles.about_text}>
+          I am a passionate web developer with a love for creating beautiful and
+          functional websites. I have experience in various technologies and
+          frameworks, and I am always eager to learn more.
+        </p>
+        <p class={styles.about_text}>
+          In my free time, I enjoy exploring new technologies, contributing to
+          open-source projects, and sharing my knowledge with others.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import styles from "./AboutMe.module.css";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const aboutCard = document.getElementById("aboutCard");
+      const modalContainer = document.getElementById("modalOverlay");
+      const closeModal = document.getElementById("closeModal");
+      const modalContent = document.getElementById("aboutContainer");
+      const modalHeader = document.getElementById("modalHeader");
+
+      const cardElement = aboutCard?.querySelector("[class*='card']");
+
+      let isDragging = false;
+      let currentX: number;
+      let currentY: number;
+      let initialX: number;
+      let initialY: number;
+      let xOffset = 0;
+      let yOffset = 0;
+
+      let isCardClicked = false;
+
+      if (aboutCard && modalContainer && closeModal) {
+        aboutCard.addEventListener("click", () => {
+          isCardClicked = true;
+
+          if (cardElement) {
+            cardElement.classList.add("card-clicked");
+          }
+
+          // Show modal without locking the body scroll
+          modalContainer.style.display = "flex";
+          // Remove this line to allow scrolling
+          // document.body.style.overflow = "hidden";
+
+          if (modalContent) {
+            modalContent.style.transform = "translate(0px, 0px)";
+            xOffset = 0;
+            yOffset = 0;
+          }
+        });
+
+        closeModal.addEventListener("click", () => {
+          modalContainer.style.display = "none";
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (
+            event.key === "Escape" &&
+            getComputedStyle(modalContainer).display !== "none"
+          ) {
+            modalContainer.style.display = "none";
+          }
+        });
+      }
+
+      function dragStart(e: MouseEvent | TouchEvent) {
+        if (
+          !(
+            e.target === modalHeader ||
+            (e.target instanceof Element &&
+              e.target.closest(`.${styles.modal_header}`))
+          )
+        ) {
+          return;
+        }
+
+        if (modalContent) {
+          modalContent.classList.add(styles.dragging);
+        }
+
+        if (
+          (e.target instanceof Element &&
+            e.target.closest(`.${styles.close_button}`)) ||
+          (e.target instanceof Element && e.target.tagName === "INPUT") ||
+          (e.target instanceof Element && e.target.tagName === "TEXTAREA")
+        ) {
+          return;
+        }
+
+        if (e.type === "touchstart") {
+          const touchEvent = e as TouchEvent;
+          initialX = touchEvent.touches[0].clientX - xOffset;
+          initialY = touchEvent.touches[0].clientY - yOffset;
+        } else {
+          const mouseEvent = e as MouseEvent;
+          initialX = mouseEvent.clientX - xOffset;
+          initialY = mouseEvent.clientY - yOffset;
+        }
+
+        isDragging = true;
+      }
+
+      function dragEnd() {
+        isDragging = false;
+        modalContent?.classList.remove(styles.dragging);
+      }
+
+      function drag(e: MouseEvent | TouchEvent) {
+        if (isDragging) {
+          e.preventDefault();
+
+          if (e.type === "touchmove") {
+            const touchEvent = e as TouchEvent;
+            currentX = touchEvent.touches[0].clientX - initialX;
+            currentY = touchEvent.touches[0].clientY - initialY;
+          } else {
+            const mouseEvent = e as MouseEvent;
+            currentX = mouseEvent.clientX - initialX;
+            currentY = mouseEvent.clientY - initialY;
+          }
+
+          xOffset = currentX;
+          yOffset = currentY;
+
+          if (modalContent) {
+            modalContent.style.transform = `translate(${currentX}px, ${currentY}px)`;
+          }
+        }
+      }
+
+      if (modalContent) {
+        modalContent.addEventListener("mousedown", dragStart);
+        modalContent.addEventListener("touchstart", dragStart, {
+          passive: false,
+        });
+        document.addEventListener("mouseup", dragEnd);
+        document.addEventListener("touchend", dragEnd);
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("touchmove", drag, { passive: false });
+      }
+    });
+  </script>
 </div>
