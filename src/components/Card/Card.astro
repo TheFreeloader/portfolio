@@ -1,14 +1,16 @@
 ---
 import styles from "./Card.module.css";
+
 interface Props {
   title: string;
   icon: string;
+  cardId: string;
 }
 
-const { title, icon } = Astro.props;
+const { title, icon, cardId } = Astro.props;
 ---
 
-<div class={styles.card}>
+<div class={styles.card} data-card-id={cardId}>
   <div class={styles.cardIcon}>
     <img src={icon} alt="" aria-hidden="true" />
   </div>
@@ -16,3 +18,14 @@ const { title, icon } = Astro.props;
     <h3 class={styles.cardTitle}>{title}</h3>
   </div>
 </div>
+
+<script>
+  import { initializeCard } from "./cardHandler";
+  const cardElements = document.querySelectorAll("[data-card-id]");
+  cardElements.forEach((card) => {
+    const cardId = card.getAttribute("data-card-id");
+    if (cardId) {
+      initializeCard(cardId);
+    }
+  });
+</script>
