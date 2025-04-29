@@ -33,6 +33,24 @@ export function setModalOpen(cardId: string, isOpen: boolean) {
     isModalOpen: false,
   };
   cardStatesStore.setKey(cardId, { ...currentState, isModalOpen: isOpen });
+  
+  // Log which modal was opened or closed
+  if (isOpen) {
+    console.log(`Modal opened: ${cardId}`);
+  } else {
+    console.log(`Modal closed: ${cardId}`);
+  }
+
+  // Log all currently open modals
+  const openModals = Object.entries(cardStatesStore.get())
+    .filter(([_, state]) => state.isModalOpen)
+    .map(([id, _]) => id);
+  
+  if (openModals.length > 0) {
+    console.log(`Currently open modals: ${openModals.join(', ')}`);
+  } else {
+    console.log('No modals currently open');
+  }
 }
 
 export function isModalOpen(cardId: string): boolean {

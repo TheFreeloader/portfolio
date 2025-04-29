@@ -32,3 +32,9 @@
   color: #ffffff;
   font-family: "Poppins", sans-serif;
 }
+div[data-card-id] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

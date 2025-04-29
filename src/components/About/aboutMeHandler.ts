@@ -22,26 +22,33 @@ export function initializeAboutMe(cardId: string) {
     let initialY: number;
     let xOffset = 0;
     let yOffset = 0;
-
     if (isModalOpen(cardId) && modalContainer) {
       modalContainer.style.display = "flex";
     }
 
     if (aboutCard && modalContainer && closeModal) {
-      aboutCard.addEventListener("click", () => {
-        if (canCardBeClicked(cardId)) {
-          setCardClicked(cardId, true);
-          setModalOpen(cardId, true);
+      aboutCard.addEventListener("click", (event) => {
+        if (isModalOpen(cardId)) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+        if (!canCardBeClicked(cardId)) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+        setCardClicked(cardId, true);
+        setModalOpen(cardId, true);
 
-          if (cardElement) {
-            cardElement.classList.add("card-clicked");
-          }
-          modalContainer.style.display = "flex";
-          if (modalContent) {
-            modalContent.style.transform = "translate(0px, 0px)";
-            xOffset = 0;
-            yOffset = 0;
-          }
+        if (cardElement) {
+          cardElement.classList.add("card-clicked");
+        }
+        modalContainer.style.display = "flex";
+        if (modalContent) {
+          modalContent.style.transform = "translate(0px, 0px)";
+          xOffset = 0;
+          yOffset = 0;
         }
       });
 
@@ -60,7 +67,6 @@ export function initializeAboutMe(cardId: string) {
         }
       });
     }
-
     function dragStart(e: MouseEvent | TouchEvent) {
       if (
         !(
