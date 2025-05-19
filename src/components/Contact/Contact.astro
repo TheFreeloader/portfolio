@@ -1,0 +1,56 @@
+---
+import styles from "./Contact.module.css";
+import Card from "../Card/Card.astro";
+import ContactIco from "../../assets/contacts.svg";
+const cardId = "contact";
+---
+
+<div>
+  <div class={styles.card_wrapper} id="contactCard">
+    <Card title="Contact" icon={ContactIco.src} cardId={cardId} />
+  </div>
+  <div class={styles.modal_container} id="contactModalOverlay">
+    <div class={styles.modal_content} id="contactContainer">
+      <div class={styles.modal_header} id="contactModalHeader"></div>
+      <div class={styles.close_button_container}>
+        <span class={styles.close_button} id="contactCloseModal">&times;</span>
+      </div>
+      <div class={styles.modal_body}>
+        <h2 class={styles.contact_title}>Contact Me</h2>
+
+        <div class={styles.contact_item}>
+          <span class={styles.contact_label}>Email:</span>
+          <a href="mailto:cyjnavarro@gmail.com" class={styles.contact_value}
+            >cyjnavarro@gmail.com</a
+          >
+        </div>
+
+        <div class={styles.contact_item}>
+          <span class={styles.contact_label}>LinkedIn:</span>
+          <a
+            href="https://linkedin.com/in/yourprofile"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={styles.contact_value}>linkedin.com/in/yourprofile</a
+          >
+        </div>
+
+        <div class={styles.contact_item}>
+          <span class={styles.contact_label}>GitHub:</span>
+          <a
+            href="https://github.com/yourusername"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={styles.contact_value}>github.com/yourusername</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { initializeContact } from "./contactsHandler";
+    const cardId = "contact";
+    initializeContact(cardId);
+  </script>
+</div>

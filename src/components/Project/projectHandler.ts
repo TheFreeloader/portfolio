@@ -7,15 +7,15 @@ import {
 
 let globalModalZ = 2000;
 
-export function initializeAboutMe(cardId: string) {
+export function initializeProjects(cardId: string) {
   document.addEventListener("DOMContentLoaded", () => {
-    const aboutCard = document.getElementById("aboutCard");
-    const modalContainer = document.getElementById("modalOverlay");
-    const closeModal = document.getElementById("closeModal");
-    const modalContent = document.getElementById("aboutContainer");
-    const modalHeader = document.getElementById("modalHeader");
+    const projectsCard = document.getElementById("projectsCard");
+    const modalContainer = document.getElementById("projectModalOverlay");
+    const closeModal = document.getElementById("projectCloseModal");
+    const modalContent = document.getElementById("projectsContainer");
+    const modalHeader = document.getElementById("projectModalHeader");
 
-    const cardElement = aboutCard?.querySelector("[class*='card']");
+    const cardElement = projectsCard?.querySelector("[class*='card']");
 
     let isDragging = false;
     let currentX: number;
@@ -24,13 +24,14 @@ export function initializeAboutMe(cardId: string) {
     let initialY: number;
     let xOffset = 0;
     let yOffset = 0;
+
     if (isModalOpen(cardId) && modalContainer) {
       modalContainer.style.display = "flex";
       modalContainer.style.zIndex = String(globalModalZ++);
     }
 
-    if (aboutCard && modalContainer && closeModal) {
-      aboutCard.addEventListener("click", (event) => {
+    if (projectsCard && modalContainer && closeModal) {
+      projectsCard.addEventListener("click", (event) => {
         if (isModalOpen(cardId)) {
           // Bring this modal to front
           modalContainer.style.zIndex = String(globalModalZ++);
@@ -38,11 +39,7 @@ export function initializeAboutMe(cardId: string) {
           event.stopPropagation();
           return;
         }
-        if (!canCardBeClicked(cardId)) {
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
+
         setCardClicked(cardId, true);
         setModalOpen(cardId, true);
 
@@ -66,6 +63,7 @@ export function initializeAboutMe(cardId: string) {
       document.addEventListener("keydown", (event) => {
         if (
           event.key === "Escape" &&
+          isModalOpen(cardId) &&
           getComputedStyle(modalContainer).display !== "none"
         ) {
           setModalOpen(cardId, false);
@@ -73,6 +71,7 @@ export function initializeAboutMe(cardId: string) {
         }
       });
     }
+
     function dragStart(e: MouseEvent | TouchEvent) {
       if (
         !(
@@ -83,16 +82,18 @@ export function initializeAboutMe(cardId: string) {
         return;
       }
 
-      if (modalContent) {
-        modalContent.classList.add("dragging");
-      }
-
       if (
         (e.target instanceof Element && e.target.closest(".close_button")) ||
         (e.target instanceof Element && e.target.tagName === "INPUT") ||
-        (e.target instanceof Element && e.target.tagName === "TEXTAREA")
+        (e.target instanceof Element && e.target.tagName === "TEXTAREA") ||
+        (e.target instanceof Element && e.target.tagName === "BUTTON") ||
+        (e.target instanceof Element && e.target.closest("form"))
       ) {
         return;
+      }
+
+      if (modalContent) {
+        modalContent.classList.add("dragging");
       }
 
       if (e.type === "touchstart") {

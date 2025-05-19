@@ -10,9 +10,11 @@ interface Props {
 const { title, icon, cardId } = Astro.props;
 ---
 
-<div class={styles.card} data-card-id={cardId}>
-  <div class={styles.cardIcon}>
-    <img src={icon} alt="" aria-hidden="true" />
+<div class={styles.card} data-card-id={cardId} data-base-class="card">
+  <div class={styles.cardIconContainer}>
+    <div class={styles.cardIcon}>
+      <img src={icon} alt="" aria-hidden="true" />
+    </div>
   </div>
   <div class={styles.cardContent}>
     <h3 class={styles.cardTitle}>{title}</h3>

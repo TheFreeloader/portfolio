@@ -47,38 +47,6 @@
   pointer-events: auto;
   font-family: "Poppins", sans-serif;
 }
-
-.modal_content::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: -7px;
-  right: -7px;
-  bottom: -7px;
-  z-index: -1;
-  background: transparent;
-  border-radius: 8px;
-  pointer-events: none;
-}
-
-.modal_svg {
-  position: absolute;
-  top: -7px;
-  left: -7px;
-  width: calc(100% + 14px);
-  height: calc(100% + 14px);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.modal_svg rect {
-  stroke: #362b14;
-  stroke-width: 7;
-  fill: transparent;
-  stroke-dasharray: 778;
-  stroke-dashoffset: 0;
-}
-
 .close_button_container {
   background-image: url("../../assets/buttonbg.png");
   background-size: cover;
@@ -127,10 +95,6 @@
   scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  -ms-overflow-style: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -138,37 +102,43 @@
   display: none;
 }
 
-.about_title {
+.projects_title {
   display: flex;
   align-self: center;
   margin-top: 0;
-  color: #333;
+  color: #fcf5e5;
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #fcf5e5;
 }
-.about_content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
+
+.project_item {
+  background: #2d2d2d;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.about_image {
-  width: 40%;
-  height: 40%;
-  border-radius: 8px;
-}
-.about_text_container {
-  width: 55%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.about_text {
-  line-height: 1.6;
-  margin-bottom: 1rem;
+
+.project_description {
   color: #fff5ee;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.project_links {
+  display: flex;
+  gap: 1rem;
+}
+
+.project_links a {
+  color: #ffb347;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.project_links a:hover {
+  color: #ffd580;
 }
 
 .dragging {

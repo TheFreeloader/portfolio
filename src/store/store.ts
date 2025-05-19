@@ -33,7 +33,7 @@ export function setModalOpen(cardId: string, isOpen: boolean) {
     isModalOpen: false,
   };
   cardStatesStore.setKey(cardId, { ...currentState, isModalOpen: isOpen });
-  
+
   // Log which modal was opened or closed
   if (isOpen) {
     console.log(`Modal opened: ${cardId}`);
@@ -45,11 +45,11 @@ export function setModalOpen(cardId: string, isOpen: boolean) {
   const openModals = Object.entries(cardStatesStore.get())
     .filter(([_, state]) => state.isModalOpen)
     .map(([id, _]) => id);
-  
+
   if (openModals.length > 0) {
-    console.log(`Currently open modals: ${openModals.join(', ')}`);
+    console.log(`Currently open modals: ${openModals.join(", ")}`);
   } else {
-    console.log('No modals currently open');
+    console.log("No modals currently open");
   }
 }
 
@@ -67,17 +67,36 @@ export function toggleCardClicked(cardId: string) {
   setCardClicked(cardId, !currentState);
 }
 
-export function getOpenModalId(): string | null {
+export function getOpenModalIds(): string[] {
   const states = cardStatesStore.get();
-  for (const [cardId, state] of Object.entries(states)) {
-    if (state.isModalOpen) {
-      return cardId;
-    }
-  }
-  return null;
+  return Object.entries(states)
+    .filter(([_, state]) => state.isModalOpen)
+    .map(([cardId, _]) => cardId);
 }
 
+export function getOpenModalId(): string | null {
+  const openModalIds = getOpenModalIds();
+  return openModalIds.length > 0 ? openModalIds[0] : null;
+}
+
+// Updated to allow multiple unique modals to be open
 export function canCardBeClicked(cardId: string): boolean {
-  const openModalId = getOpenModalId();
-  return !openModalId || openModalId === cardId;
+  // If this card's modal is already open, don't allow clicking
+  if (isModalOpen(cardId)) {
+    return false;
+  }
+
+  // Otherwise, any card can be clicked to open its modal
+  return true;
+}
+
+// Get count of open modals
+export function getOpenModalCount(): number {
+  return getOpenModalIds().length;
+}
+
+// Check if card should be disabled (for UI purposes)
+export function shouldCardBeDisabled(cardId: string): boolean {
+  // A card should be disabled if its own modal is already open
+  return isModalOpen(cardId);
 }
