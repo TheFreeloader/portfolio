@@ -1,44 +1,182 @@
 ---
-import styles from "./Projects.module.css";
 import Card from "../Card/Card.astro";
 import ProjectIcon from "../../assets/project.svg";
+import ModalBg from "../../assets/modalbg.svg";
+import ButtonBg from "../../assets/buttonbg.png";
 const cardId = "projects";
 ---
 
 <div>
-  <div class={styles.card_wrapper} id="projectsCard">
+  <div class="cursor-pointer" id="projectsCard">
     <Card title="Projects" icon={ProjectIcon.src} cardId={cardId} />
   </div>
-  <div class={styles.modal_container} id="projectModalOverlay">
-    <div class={styles.modal_content} id="projectsContainer">
-      <div class={styles.modal_header} id="projectModalHeader"></div>
-      <div class={styles.close_button_container}>
-        <span class={styles.close_button} id="projectCloseModal">&times;</span>
+  <div
+    class="hidden z-[1000]
+      w-full h-full
+      pointer-events-none
+      fixed top-0 left-0 justify-center items-center [&.visible]:flex"
+    id="projectModalOverlay"
+  >
+    <div
+      class="overflow-visible
+        max-w-[600px] w-full max-h-[50vh]
+        p-8
+        font-[
+        bg-cover bg-no-repeat
+        border-[7px] border-[#362b14] rounded-lg
+        shadow-[0_4px_20px_rgba(0,0,0,0.2)] pointer-events-auto
+        relative translate-x-0 translate-y-0
+      '
+    Poppins',sans-serif]"
+      id="projectsContainer"
+      style={`background-image: url(${ModalBg.src})`}
+    >
+      <div
+        class="z-10
+          w-full h-[40px]
+          bg-[rgba(0,0,0,0.01)]
+          cursor-move
+          absolute top-0 left-0"
+        id="projectModalHeader"
+      >
       </div>
-      <div class={styles.modal_body}>
-        <h2 class={styles.projects_title}>My Projects</h2>
+      <div
+        class="flex z-20 overflow-visible
+          w-[100px] h-[100px]
+          bg-cover
+          pointer-events-auto select-none
+          absolute -top-[40px] -right-[40px] justify-center items-center"
+        style={`background-image: url(${ButtonBg.src})`}
+      >
+        <span
+          class="flex z-20
+            text-2xl text-white
+            cursor-pointer
+            absolute top-[50px] right-[57px] hover:text-white hover:font-black"
+          id="projectCloseModal">&times;</span
+        >
+      </div>
+      <div
+        class="z-[5] overflow-y-auto overflow-x-hidden flex flex-col
+          max-h-[calc(50vh-70px)]
+          pt-[10px] p-[5px]
+          select-none
+          relative -m-[5px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <h2
+          class="flex
+            mt-0 mb-4
+            text-[#fcf5e5] text-[2rem]
+            self-center"
+        >
+          My Projects
+        </h2>
 
-        <div class={styles.project_item}>
-          <h3>Project 1</h3>
-          <p class={styles.project_description}>
+        <div
+          class="p-4 mb-6
+            bg-[#2d2d2d]
+            rounded-md
+            shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+        >
+          <h3 class="mb-2
+              text-white text-lg font-semibold">
+            Project 1
+          </h3>
+          <p class="mb-3
+              text-[#fff5ee] leading-6">
             A description of your first project. Include technologies used and
             the purpose of the project.
           </p>
-          <div class={styles.project_links}>
-            <a href="#" target="_blank">View Demo</a>
-            <a href="#" target="_blank">GitHub</a>
+          <div class="flex
+              gap-4">
+            <a
+              href="#"
+              target="_blank"
+              class="text-[#ffb347] font-medium
+                  transition-colors
+                  no-underline duration-200 hover:text-[#ffd580]"
+              >View Demo</a
+            >
+            <a
+              href="#"
+              target="_blank"
+              class="text-[#ffb347] font-medium
+                  transition-colors
+                  no-underline duration-200 hover:text-[#ffd580]"
+              >GitHub</a
+            >
           </div>
         </div>
 
-        <div class={styles.project_item}>
-          <h3>Project 2</h3>
-          <p class={styles.project_description}>
+        <div
+          class="p-4 mb-6
+            bg-[#2d2d2d]
+            rounded-md
+            shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+        >
+          <h3 class="mb-2
+              text-white text-lg font-semibold">
+            Project 2
+          </h3>
+          <p class="mb-3
+              text-[#fff5ee] leading-6">
             A description of your second project. Include technologies used and
             the purpose of the project.
           </p>
-          <div class={styles.project_links}>
-            <a href="#" target="_blank">View Demo</a>
-            <a href="#" target="_blank">GitHub</a>
+          <div class="flex
+              gap-4">
+            <a
+              href="#"
+              target="_blank"
+              class="text-[#ffb347] font-medium
+                  transition-colors
+                  no-underline duration-200 hover:text-[#ffd580]"
+              >View Demo</a
+            >
+            <a
+              href="#"
+              target="_blank"
+              class="text-[#ffb347] font-medium
+                  transition-colors
+                  no-underline duration-200 hover:text-[#ffd580]"
+              >GitHub</a
+            >
+          </div>
+        </div>
+
+        <div
+          class="p-4 mb-6
+            bg-[#2d2d2d]
+            rounded-md
+            shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+        >
+          <h3 class="mb-2
+              text-white text-lg font-semibold">
+            Project 3
+          </h3>
+          <p class="mb-3
+              text-[#fff5ee] leading-6">
+            A description of your third project. Include technologies used and
+            the purpose of the project.
+          </p>
+          <div class="flex
+              gap-4">
+            <a
+              href="#"
+              target="_blank"
+              class="text-[#ffb347] font-medium
+                  transition-colors
+                  no-underline duration-200 hover:text-[#ffd580]"
+              >View Demo</a
+            >
+            <a
+              href="#"
+              target="_blank"
+              class="text-[#ffb347] font-medium
+                  transition-colors
+                  no-underline duration-200 hover:text-[#ffd580]"
+              >GitHub</a
+            >
           </div>
         </div>
       </div>
@@ -51,3 +189,9 @@ const cardId = "projects";
     initializeProjects(cardId);
   </script>
 </div>
+
+<style>
+  .dragging {
+    user-select: none;
+  }
+</style>
