@@ -1,0 +1,25 @@
+---
+interface Props {
+  id: string;
+  buttonBg: string;
+}
+
+const { id, buttonBg } = Astro.props;
+---
+
+<div
+  class="flex z-20 overflow-visible
+    w-[100px] h-[100px]
+    bg-cover
+    pointer-events-auto select-none
+    absolute -top-[40px] -right-[40px] justify-center items-center"
+  style={`background-image: url(${buttonBg})`}
+>
+  <span
+    class="flex z-20
+      text-2xl text-white
+      cursor-pointer
+      absolute top-[50px] right-[57px] hover:text-white hover:font-black"
+    id={id}>&times;</span
+  >
+</div>

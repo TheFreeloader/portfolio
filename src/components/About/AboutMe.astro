@@ -1,5 +1,6 @@
 ---
 import Card from "../Card/Card.astro";
+import CloseButton from "../Buttons//CloseButton.astro";
 import About from "../../assets/about.svg";
 const cardId = "about";
 import Me from "../../assets/me.jpeg";
@@ -22,14 +23,11 @@ import ButtonBg from "../../assets/buttonbg.png";
       class="overflow-visible
         max-w-[600px] w-full max-h-[50vh]
         p-8
-        font-[
         bg-cover bg-no-repeat
         border-[7px] border-[#362b14] rounded-lg
         shadow-[0_4px_20px_rgba(0,0,0,0.2)] pointer-events-auto
         relative translate-x-0 translate-y-0
-      '
-    
-    Poppins',sans-serif] before:content-[''] before:absolute before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none"
+        font-['Poppins',sans-serif] before:content-[''] before:absolute before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none"
       id="aboutContainer"
       style={`background-image: url(${ModalBg.src})`}
     >
@@ -42,22 +40,9 @@ import ButtonBg from "../../assets/buttonbg.png";
         id="modalHeader"
       >
       </div>
-      <div
-        class="flex z-20 overflow-visible
-          w-[100px] h-[100px]
-          bg-cover
-          pointer-events-auto select-none
-          absolute -top-[40px] -right-[40px] justify-center items-center"
-        style={`background-image: url(${ButtonBg.src})`}
-      >
-        <span
-          class="flex z-20
-            text-2xl text-white
-            cursor-pointer
-            absolute top-[50px] right-[57px] hover:text-white hover:font-black"
-          id="closeModal">&times;</span
-        >
-      </div>
+
+      <CloseButton id="closeModal" buttonBg={ButtonBg.src} />
+
       <div
         class="z-[5] overflow-y-auto overflow-x-hidden flex flex-col
           max-h-[calc(50vh-70px)]
