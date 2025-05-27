@@ -1,5 +1,5 @@
 ---
-import styles from "./Layout.module.css";
+import "../styles/global.css";
 ---
 
 <!doctype html>
@@ -17,8 +17,8 @@ import styles from "./Layout.module.css";
     <meta name="generator" content={Astro.generator} />
     <title>My Portfolio</title>
   </head>
-  <body>
-    <div class={styles.container}>
+  <body class="m-0 p-0 bg-[#0c0906] h-screen flex relative">
+    <div class="flex flex-col justify-center items-center w-full h-full">
       <slot />
     </div>
   </body>

@@ -1,32 +1,98 @@
 ---
-import styles from "./AboutMe.module.css";
 import Card from "../Card/Card.astro";
 import About from "../../assets/about.svg";
 const cardId = "about";
 import Me from "../../assets/me.jpeg";
+import ModalBg from "../../assets/modalbg.svg";
+import ButtonBg from "../../assets/buttonbg.png";
 ---
 
 <div>
-  <div class={styles.card_wrapper} id="aboutCard">
+  <div class="cursor-pointer" id="aboutCard">
     <Card title="About Me" icon={About.src} cardId={cardId} />
   </div>
-  <div class={styles.modal_container} id="modalOverlay">
-    <div class={styles.modal_content} id="aboutContainer">
-      <div class={styles.modal_header} id="modalHeader"></div>
-      <div class={styles.close_button_container}>
-        <span class={styles.close_button} id="closeModal">&times;</span>
+  <div
+    class="hidden z-[1000]
+      w-full h-full
+      pointer-events-none
+      fixed top-0 left-0 justify-center items-center [&.visible]:flex"
+    id="modalOverlay"
+  >
+    <div
+      class="overflow-visible
+        max-w-[600px] w-full max-h-[50vh]
+        p-8
+        font-[
+        bg-cover bg-no-repeat
+        border-[7px] border-[#362b14] rounded-lg
+        shadow-[0_4px_20px_rgba(0,0,0,0.2)] pointer-events-auto
+        relative translate-x-0 translate-y-0
+      '
+    
+    Poppins',sans-serif] before:content-[''] before:absolute before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none"
+      id="aboutContainer"
+      style={`background-image: url(${ModalBg.src})`}
+    >
+      <div
+        class="z-10
+          w-full h-[40px]
+          bg-[rgba(0,0,0,0.01)]
+          cursor-move
+          absolute top-0 left-0"
+        id="modalHeader"
+      >
       </div>
-      <div class={styles.modal_body}>
-        <h2 class={styles.about_title}>About Me</h2>
-        <div class={styles.about_content}>
-          <img class={styles.about_image} src={Me.src} />
-          <div class={styles.about_text_container}>
-            <p class={styles.about_text}>
+      <div
+        class="flex z-20 overflow-visible
+          w-[100px] h-[100px]
+          bg-cover
+          pointer-events-auto select-none
+          absolute -top-[40px] -right-[40px] justify-center items-center"
+        style={`background-image: url(${ButtonBg.src})`}
+      >
+        <span
+          class="flex z-20
+            text-2xl text-white
+            cursor-pointer
+            absolute top-[50px] right-[57px] hover:text-white hover:font-black"
+          id="closeModal">&times;</span
+        >
+      </div>
+      <div
+        class="z-[5] overflow-y-auto overflow-x-hidden flex flex-col
+          max-h-[calc(50vh-70px)]
+          pt-[10px] p-[5px]
+          select-none
+          relative -m-[5px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <h2
+          class="flex
+            mt-0 mb-4
+            text-[#fcf5e5] text-[2rem]
+            self-center"
+        >
+          About Me
+        </h2>
+        <div
+          class="flex
+            mt-4
+            justify-between items-center"
+        >
+          <img class="w-[40%] h-[40%]
+              rounded-lg" src={Me.src} />
+          <div
+            class="flex flex-col
+              w-[55%]
+              justify-center items-center"
+          >
+            <p class="mb-4
+                leading-[1.6] text-[#fff5ee]">
               I am a passionate web developer with a love for creating beautiful
               and functional websites. I have experience in various technologies
               and frameworks, and I am always eager to learn more.
             </p>
-            <p class={styles.about_text}>
+            <p class="mb-4
+                leading-[1.6] text-[#fff5ee]">
               In my free time, I enjoy exploring new technologies, contributing
               to open-source projects, and sharing my knowledge with others.
             </p>
@@ -42,3 +108,17 @@ import Me from "../../assets/me.jpeg";
     initializeAboutMe(cardId);
   </script>
 </div>
+
+<style>
+  .dragging {
+    user-select: none;
+  }
+
+  .modal_svg rect {
+    stroke: #362b14;
+    stroke-width: 7;
+    fill: transparent;
+    stroke-dasharray: 778;
+    stroke-dashoffset: 0;
+  }
+</style>
