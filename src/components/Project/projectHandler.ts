@@ -25,6 +25,13 @@ export function initializeProjects(cardId: string) {
     let xOffset = 0;
     let yOffset = 0;
 
+    // Function to bring modal to front
+    const bringToFront = () => {
+      if (modalContainer) {
+        modalContainer.style.zIndex = String(globalModalZ++);
+      }
+    };
+
     if (isModalOpen(cardId) && modalContainer) {
       modalContainer.style.display = "flex";
       modalContainer.style.zIndex = String(globalModalZ++);
@@ -34,7 +41,7 @@ export function initializeProjects(cardId: string) {
       projectsCard.addEventListener("click", (event) => {
         if (isModalOpen(cardId)) {
           // Bring this modal to front
-          modalContainer.style.zIndex = String(globalModalZ++);
+          bringToFront();
           event.preventDefault();
           event.stopPropagation();
           return;
@@ -47,13 +54,18 @@ export function initializeProjects(cardId: string) {
           cardElement.classList.add("card-clicked");
         }
         modalContainer.style.display = "flex";
-        modalContainer.style.zIndex = String(globalModalZ++);
+        bringToFront();
         if (modalContent) {
           modalContent.style.transform = "translate(0px, 0px)";
           xOffset = 0;
           yOffset = 0;
         }
       });
+
+      // Add event listeners for bringing modal to front on interaction
+      modalContainer.addEventListener("click", bringToFront);
+      modalContainer.addEventListener("touchstart", bringToFront);
+      modalContainer.addEventListener("mousedown", bringToFront);
 
       closeModal.addEventListener("click", () => {
         setModalOpen(cardId, false);
@@ -91,6 +103,9 @@ export function initializeProjects(cardId: string) {
       ) {
         return;
       }
+
+      // Bring modal to front when dragging starts
+      bringToFront();
 
       if (modalContent) {
         modalContent.classList.add("dragging");

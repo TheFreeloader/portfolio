@@ -5,6 +5,8 @@ import {
   canCardBeClicked,
 } from "../../store/store";
 
+let globalModalZ = 2000;
+
 export function initializeContact(cardId: string) {
   document.addEventListener("DOMContentLoaded", () => {
     const contactCard = document.getElementById("contactCard");
@@ -23,13 +25,23 @@ export function initializeContact(cardId: string) {
     let xOffset = 0;
     let yOffset = 0;
 
+    // Function to bring modal to front
+    const bringToFront = () => {
+      if (modalContainer) {
+        modalContainer.style.zIndex = String(globalModalZ++);
+      }
+    };
+
     if (isModalOpen(cardId) && modalContainer) {
       modalContainer.style.display = "flex";
+      modalContainer.style.zIndex = String(globalModalZ++);
     }
 
     if (contactCard && modalContainer && closeModal) {
       contactCard.addEventListener("click", (event) => {
         if (isModalOpen(cardId)) {
+          // Bring this modal to front
+          bringToFront();
           event.preventDefault();
           event.stopPropagation();
           return;
@@ -42,12 +54,18 @@ export function initializeContact(cardId: string) {
           cardElement.classList.add("card-clicked");
         }
         modalContainer.style.display = "flex";
+        bringToFront();
         if (modalContent) {
           modalContent.style.transform = "translate(0px, 0px)";
           xOffset = 0;
           yOffset = 0;
         }
       });
+
+      // Add event listeners for bringing modal to front on interaction
+      modalContainer.addEventListener("click", bringToFront);
+      modalContainer.addEventListener("touchstart", bringToFront);
+      modalContainer.addEventListener("mousedown", bringToFront);
 
       closeModal.addEventListener("click", () => {
         setModalOpen(cardId, false);
@@ -85,6 +103,9 @@ export function initializeContact(cardId: string) {
       ) {
         return;
       }
+
+      // Bring modal to front when dragging starts
+      bringToFront();
 
       if (modalContent) {
         modalContent.classList.add("dragging");
