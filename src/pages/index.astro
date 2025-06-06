@@ -2,10 +2,14 @@
 import Layout from "../layouts/Layout.astro";
 import AboutMe from "./About/AboutMe.astro";
 import Contact from "./Contact/Contact.astro";
+import Projects from "./Project/Projects.astro";
 import "../styles/global.css";
 ---
 
 <Layout>
-  <AboutMe />
-  <Contact />
+  <div class="flex flex-row items-center justify-center gap-3">
+    <AboutMe />
+    <Contact />
+    <Projects />
+  </div>
 </Layout>

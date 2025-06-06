@@ -1,184 +1,131 @@
 ---
-import Card from "../Card/Card.astro";
-import CloseButton from "../Buttons/CloseButton.astro";
+import Modal from "../../components/Modal/Modal.astro";
 import ProjectIcon from "../../assets/project.svg";
-import ModalBg from "../../assets/modalbg.svg";
-import ButtonBg from "../../assets/buttonbg.png";
+
 const cardId = "projects";
 ---
 
-<div>
-  <div class="cursor-pointer" id="projectsCard">
-    <Card title="Projects" icon={ProjectIcon.src} cardId={cardId} />
-  </div>
-  <div
-    class="hidden z-[1000]
-      w-full h-full
-      pointer-events-none
-      fixed top-0 left-0 justify-center items-center [&.visible]:flex"
-    id="projectModalOverlay"
+<Modal
+  cardId={cardId}
+  cardTitle="Projects"
+  cardIcon={ProjectIcon.src}
+  modalOverlayId="projectModalOverlay"
+  modalContentId="projectsContainer"
+  modalHeaderId="projectModalHeader"
+  closeModalId="projectCloseModal"
+  cardElementId="projectsCard"
+  maxWidth="600px"
+  maxHeight="50vh"
+>
+  <!-- Modal Content Slot -->
+  <h2
+    class="flex
+      mt-4 mb-4
+      text-[#fcf5e5] text-[2rem]
+      self-center"
   >
-    <div
-      class="overflow-visible
-        max-w-[600px] w-full max-h-[50vh]
-        p-8
-        bg-cover bg-no-repeat
-        border-[7px] border-[#362b14] rounded-lg
-        shadow-[0_4px_20px_rgba(0,0,0,0.2)] pointer-events-auto
-        relative translate-x-0 translate-y-0
-        font-['Poppins',sans-serif] before:content-[''] before:absolute before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none"
-      id="projectsContainer"
-      style={`background-image: url(${ModalBg.src})`}
-    >
-      <div
-        class="z-10
-          w-full h-[50px]
-          bg-[rgba(0,0,0,0.1)]
-          border-b-2 border-dashed border-[rgba(252,245,229,0.5)]
-          cursor-move transition-colors
-          absolute top-0 left-0 hover:border-b-[rgba(252,245,229,0.8)] duration-200"
-        id="projectModalHeader"
+    My Projects
+  </h2>
+
+  <div
+    class="p-4 mb-6
+      bg-[#2d2d2d]
+      rounded-md
+      shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+  >
+    <h3 class="mb-2
+        text-white text-lg font-semibold">Project 1</h3>
+    <p class="mb-3
+        text-[#fff5ee] leading-6">
+      A description of your first project. Include technologies used and the
+      purpose of the project.
+    </p>
+    <div class="flex
+        gap-4">
+      <a
+        href="#"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >View Demo</a
       >
-      </div>
-
-      <CloseButton id="projectCloseModal" buttonBg={ButtonBg.src} />
-
-      <div
-        class="z-[5] overflow-y-auto overflow-x-hidden flex flex-col
-          max-h-[calc(50vh-70px)]
-          pt-2 p-1
-          select-none
-          relative -m-[5px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden font-bold"
+      <a
+        href="#"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >GitHub</a
       >
-        <h2
-          class="flex
-            mt-4 mb-4
-            text-[#fcf5e5] text-[2rem]
-            self-center"
-        >
-          My Projects
-        </h2>
-
-        <div
-          class="p-4 mb-6
-            bg-[#2d2d2d]
-            rounded-md
-            shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-        >
-          <h3 class="mb-2
-              text-white text-lg font-semibold">
-            Project 1
-          </h3>
-          <p class="mb-3
-              text-[#fff5ee] leading-6">
-            A description of your first project. Include technologies used and
-            the purpose of the project.
-          </p>
-          <div class="flex
-              gap-4">
-            <a
-              href="#"
-              target="_blank"
-              class="text-[#ffb347] font-medium
-                  transition-colors
-                  no-underline duration-200 hover:text-[#ffd580]"
-              >View Demo</a
-            >
-            <a
-              href="#"
-              target="_blank"
-              class="text-[#ffb347] font-medium
-                  transition-colors
-                  no-underline duration-200 hover:text-[#ffd580]"
-              >GitHub</a
-            >
-          </div>
-        </div>
-
-        <div
-          class="p-4 mb-6
-            bg-[#2d2d2d]
-            rounded-md
-            shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-        >
-          <h3 class="mb-2
-              text-white text-lg font-semibold">
-            Project 2
-          </h3>
-          <p class="mb-3
-              text-[#fff5ee] leading-6">
-            A description of your second project. Include technologies used and
-            the purpose of the project.
-          </p>
-          <div class="flex
-              gap-4">
-            <a
-              href="#"
-              target="_blank"
-              class="text-[#ffb347] font-medium
-                  transition-colors
-                  no-underline duration-200 hover:text-[#ffd580]"
-              >View Demo</a
-            >
-            <a
-              href="#"
-              target="_blank"
-              class="text-[#ffb347] font-medium
-                  transition-colors
-                  no-underline duration-200 hover:text-[#ffd580]"
-              >GitHub</a
-            >
-          </div>
-        </div>
-
-        <div
-          class="p-4 mb-6
-            bg-[#2d2d2d]
-            rounded-md
-            shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-        >
-          <h3 class="mb-2
-              text-white text-lg font-semibold">
-            Project 3
-          </h3>
-          <p class="mb-3
-              text-[#fff5ee] leading-6">
-            A description of your third project. Include technologies used and
-            the purpose of the project.
-          </p>
-          <div class="flex
-              gap-4">
-            <a
-              href="#"
-              target="_blank"
-              class="text-[#ffb347] font-medium
-                  transition-colors
-                  no-underline duration-200 hover:text-[#ffd580]"
-              >View Demo</a
-            >
-            <a
-              href="#"
-              target="_blank"
-              class="text-[#ffb347] font-medium
-                  transition-colors
-                  no-underline duration-200 hover:text-[#ffd580]"
-              >GitHub</a
-            >
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
-  <script>
-    import { initializeProjects } from "./projectHandler.ts";
-    const cardId = "projects";
-    initializeProjects(cardId);
-  </script>
-</div>
+  <div
+    class="p-4 mb-6
+      bg-[#2d2d2d]
+      rounded-md
+      shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+  >
+    <h3 class="mb-2
+        text-white text-lg font-semibold">Project 2</h3>
+    <p class="mb-3
+        text-[#fff5ee] leading-6">
+      A description of your second project. Include technologies used and the
+      purpose of the project.
+    </p>
+    <div class="flex
+        gap-4">
+      <a
+        href="#"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >View Demo</a
+      >
+      <a
+        href="#"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >GitHub</a
+      >
+    </div>
+  </div>
 
-<style>
-  .dragging {
-    user-select: none;
-  }
-</style>
+  <div
+    class="p-4 mb-6
+      bg-[#2d2d2d]
+      rounded-md
+      shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+  >
+    <h3 class="mb-2
+        text-white text-lg font-semibold">Project 3</h3>
+    <p class="mb-3
+        text-[#fff5ee] leading-6">
+      A description of your third project. Include technologies used and the
+      purpose of the project.
+    </p>
+    <div class="flex
+        gap-4">
+      <a
+        href="#"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >View Demo</a
+      >
+      <a
+        href="#"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >GitHub</a
+      >
+    </div>
+  </div>
+</Modal>
