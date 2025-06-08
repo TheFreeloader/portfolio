@@ -7,9 +7,64 @@ import "../styles/global.css";
 ---
 
 <Layout>
-  <div class="flex flex-row items-center justify-center gap-3">
-    <AboutMe />
-    <Contact />
-    <Projects />
+  <div class="flex flex-row
+      justify-center items-center gap-4">
+    <div
+      class="overflow-auto
+        w-[30vw] h-[70vh]
+        p-4
+        bg-[#1c1c25]
+        rounded-2xl border border-transparent
+        shadow-lg shadow-[#101016] transition-colors
+        scrollbar-hide hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
+        md:p-10 md:p-b-0"
+    >
+      <AboutMe />
+    </div>
+    <div class="flex flex-col
+        w-full h-full
+        justify-between">
+      <div
+        class="flex flex-col
+          h-[45%]
+          p-4
+          bg-[#1c1c25]
+          rounded-3xl border border-transparent
+          shadow-lg shadow-[#101016] transition-colors
+          hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
+          md:p-5"
+      >
+        <Contact />
+      </div>
+      <div
+        class="flex flex-col
+          h-[53%]
+          p-4
+          border-[#1c1c25] rounded-3xl
+          shadow-lg shadow-[#101016]
+          md:p-5 md:border-25"
+      >
+        <div
+          class="flex flex-col
+            items-center justify-center gap-4
+            md:flex-row"
+        >
+          <Projects />
+          <Projects />
+          <Projects />
+        </div>
+      </div>
+    </div>
   </div>
 </Layout>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

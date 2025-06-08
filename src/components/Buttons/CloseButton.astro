@@ -1,25 +1,52 @@
 ---
 interface Props {
   id: string;
-  buttonBg: string;
 }
 
-const { id, buttonBg } = Astro.props;
+const { id } = Astro.props;
 ---
 
 <div
   class="flex z-20 overflow-visible
     w-[100px] h-[100px]
-    bg-cover
     pointer-events-auto select-none
-    absolute -top-[40px] -right-[40px] justify-center items-center"
-  style={`background-image: url(${buttonBg})`}
+    absolute -top-[25px] -right-[25px] justify-center items-center"
 >
-  <span
-    class="flex z-20
-      text-2xl text-white
+  <button
+    class="flex justify-center items-center
+      w-[30px] h-[30px]
+      bg-red-500 hover:bg-red-600 active:bg-red-700
+      rounded-full
+      shadow-xl
+      transform translate-y-[-2px]
+      hover:translate-y-[-1px] active:translate-y-[0px]
+      transition-all duration-200 ease-in-out
       cursor-pointer
-      absolute top-[50px] right-[57px] hover:text-white hover:font-black"
-    id={id}>&times;</span
+      border-2 border-red-400 hover:border-red-300"
+    id={id}
   >
+    <span
+      class="text-2xl text-white font-bold
+        transform hover:rotate-90 active:rotate-180
+        transition-transform duration-300 ease-in-out
+        select-none"
+    >&times;</span>
+  </button>
 </div>
+
+<style>
+  button:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:hover span {
+    animation: rotateX 0.3s ease-in-out;
+  }
+  
+  @keyframes rotateX {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(45deg); }
+    100% { transform: rotate(90deg); }
+  }
+</style>

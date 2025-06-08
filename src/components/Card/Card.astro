@@ -6,28 +6,11 @@ interface Props {
 }
 
 const { title, icon, cardId } = Astro.props;
-import SubtractSvg from "../../assets/Subtract.svg";
 ---
 
-<div
-  class="flex flex-col overflow-hidden
-      min-w-[200px] max-w-[200px] min-h-[200px] max-h-[200px]
-      bg-[#766257]
-      rounded-xl border border-white
-      transition-[transform,box-shadow] select-none
-      justify-between duration-200 ease-in-out hover:translate-y-[-5px] hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
-  data-card-id={cardId}
-  data-base-
-  class="card"
-  data-subtract-bg={SubtractSvg.src}
->
-  <div
-    class="flex
-      h-20
-      p-4
-      rounded-t-xl
-      justify-center items-center icon-container"
-  >
+<div data-card-id={cardId} class="card">
+  <div class="flex
+      justify-center items-center icon-container">
     <div>
       <img
         src={icon}
@@ -38,32 +21,16 @@ import SubtractSvg from "../../assets/Subtract.svg";
       />
     </div>
   </div>
-  <div
-    class="flex
-      h-[120px]
-      px-4
-      bg-[#362b14]
-      justify-center items-center content-container"
-  >
+  <div class="flex
+      justify-center items-center content-container">
     <h3
       class="text-xl font-semibold text-white font-[
-      '
-    Poppins',sans-serif]"
+      'Poppins',sans-serif]"
     >
       {title}
     </h3>
   </div>
 </div>
-
-<style>
-  .card-clicked {
-    background-image: url("../../assets/Subtract.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: transparent !important;
-    border: none !important;
-  }
-</style>
 
 <script>
   import { initializeCard } from "./cardHandler";

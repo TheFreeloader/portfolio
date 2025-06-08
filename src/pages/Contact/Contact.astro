@@ -1,72 +1,129 @@
 ---
-import Modal from "../../components/Modal/Modal.astro";
-import ContactIco from "../../assets/contacts.svg";
-
-const cardId = "contact";
+import Fb from "../../assets/fb.png";
+import Insta from "../../assets/instagram.png";
+import Linkedin from "../../assets/linkedin.png";
+import Github from "../../assets/github.png";
+import Info from "../../assets/info.png";
 ---
 
-<Modal
-  cardId={cardId}
-  cardTitle="Contact"
-  cardIcon={ContactIco.src}
-  modalOverlayId="contactModalOverlay"
-  modalContentId="contactContainer"
-  modalHeaderId="contactModalHeader"
-  closeModalId="contactCloseModal"
-  cardElementId="contactCard"
-  maxWidth="600px"
-  maxHeight="70vh"
->
-  <!-- Modal Content Slot -->
-  <h2
-    class="flex
-      mt-4 mb-6
-      text-[2rem] text-[#fcf5e5]
-      self-center"
-  >
-    Contact Me
-  </h2>
-
-  <div class="flex flex-col
-    mb-4
-    text-[#fff5ee]">
-    <span class="mb-1
-      font-bold">Email:</span>
-    <a
-      href="mailto:cyjnavarro@gmail.com"
-      class="text-[#fcf5e5]
-        no-underline hover:underline"
-      >cyjnavarro@gmail.com</a
-    >
+<div class="box-border">
+  <div class="w-full">
+    <div class="flex flex-row
+        gap-5">
+      <div
+        class="p-4
+          text-center
+          rounded-xl
+          cursor-pointer
+          justify-center relative group"
+      >
+        <div class="flex flex-row
+            justify-between items-center">
+          <h1
+            class="mb-2
+              text-white text-2xl font-bold
+              justify-center items-center"
+          >
+            Socials
+          </h1>
+          <div class="relative mb-2">
+            <img
+              src={Info.src}
+              alt="Info"
+              class="w-5 h-5
+                  justify-center items-center rounded-full bg-gray-400"
+            />
+            <div
+              class="py-1 px-2
+                text-white text-xs whitespace-nowrap
+                bg-gray-800
+                transition-all opacity-0
+                duration-300 ease-out origin-right absolute top-0 right-6 rounded scale-x-0 group-hover:scale-x-100 group-hover:opacity-100"
+            >
+              Click to open
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row
+            gap-3">
+          <div class="flex flex-col
+              items-center justify-center">
+            <a
+              href="https://www.facebook.com/cyjnavarro"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-gray-800
+                  rounded-full border-b-6 border-[#101016]
+                  transition-all
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+              title="Facebook"
+              aria-label="Facebook"
+            >
+              <img src={Fb.src} alt="Facebook" class="w-14 h-14" />
+            </a>
+          </div>
+          <div class="flex flex-col
+              items-center justify-center">
+            <a
+              href="https://www.instagram.com/variable_one/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-gray-800
+                  rounded-full border-b-6 border-[#101016]
+                  transition-all
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+              title="Instagram"
+              aria-label="Instagram"
+            >
+              <img src={Insta.src} alt="Instagram" class="w-14 h-14" />
+            </a>
+          </div>
+          <div class="flex flex-col
+              items-center justify-center">
+            <a
+              href="https://www.linkedin.com/in/cyjnavarro/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-gray-800
+                  rounded-full border-b-6 border-[#101016]
+                  transition-all
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+              title="linkedin"
+              aria-label="linkedin"
+            >
+              <img src={Linkedin.src} alt="linkedin" class="w-14 h-14" />
+            </a>
+          </div>
+          <div class="flex flex-col
+              items-center justify-center">
+            <a
+              href="https://github.com/TheFreeloader"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-gray-800
+                  rounded-full border-b-6 border-[#101016]
+                  transition-all
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+              title="Github"
+              aria-label="Github"
+            >
+              <img src={Github.src} alt="Github" class="w-14 h-14" />
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col
+          mb-4
+          text-[#fff5ee]">
+        <span class="mb-1
+            font-bold">Email:</span>
+        <a
+          href="mailto:cyjnavarro@gmail.com"
+          class="text-[#fcf5e5]
+              no-underline hover:underline hover:text-blue-400"
+          >cyjnavarro@gmail.com</a
+        >
+      </div>
+    </div>
   </div>
-
-  <div class="flex flex-col
-    mb-4
-    text-[#fff5ee]">
-    <span class="mb-1
-      font-bold">LinkedIn:</span>
-    <a
-      href="https://www.linkedin.com/in/cyjnavarro/"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-[#fcf5e5]
-        no-underline hover:underline"
-      >linkedin.com/in/cyjnavarro</a
-    >
-  </div>
-
-  <div class="flex flex-col
-    mb-4
-    text-[#fff5ee]">
-    <span class="mb-1
-      font-bold">GitHub:</span>
-    <a
-      href="https://github.com/TheFreeloader"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-[#fcf5e5]
-        no-underline hover:underline"
-      >github.com/TheFreeloader</a
-    >
-  </div>
-</Modal>
+</div>
