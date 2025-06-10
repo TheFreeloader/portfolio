@@ -1,0 +1,146 @@
+---
+import Modal from "../../components/Modal/Modal.astro";
+import DocumentationIcon from "../../assets/docs.svg";
+
+const cardId = "documentation";
+---
+
+<Modal
+  cardId={cardId}
+  cardTitle="Documentation"
+  cardIcon={DocumentationIcon.src}
+  modalOverlayId="docsModalOverlay"
+  modalContentId="docsContainer"
+  modalHeaderId="docsModalHeader"
+  closeModalId="docsCloseModal"
+  cardElementId="docsCard"
+  maxWidth="600px"
+  maxHeight="50vh"
+>
+  <!-- Modal Content Slot -->
+  <h2
+    class="flex
+      mt-4 mb-4
+      text-[#fcf5e5] text-[2rem]
+      self-center"
+  >
+    Project Documentation
+  </h2>
+
+  <div
+    class="p-4 mb-6
+      bg-[#2d2d2d]
+      rounded-md
+      shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+  >
+    <h3 class="mb-2
+        text-white text-lg font-semibold">
+      Project Overview
+    </h3>
+    <p class="mb-3
+        text-[#fff5ee] leading-6">
+      This portfolio website is built using Astro, a modern static site builder
+      that delivers excellent performance. The site features a responsive
+      design, interactive components, and optimized assets.
+    </p>
+    <div class="flex
+        gap-4">
+      <a
+        href="#architecture"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >Architecture</a
+      >
+      <a
+        href="#install"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >Installation</a
+      >
+    </div>
+  </div>
+
+  <div
+    class="p-4 mb-6
+      bg-[#2d2d2d]
+      rounded-md
+      shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+    id="architecture"
+  >
+    <h3 class="mb-2
+        text-white text-lg font-semibold">
+      Technical Architecture
+    </h3>
+    <p class="mb-3
+        text-[#fff5ee] leading-6">
+      The site is built with a component-based architecture using Astro
+      components. The styling uses Tailwind CSS for utility-first styling
+      approach. Modal dialogs handle project information and interactive
+      elements are implemented with minimal JavaScript to ensure fast load
+      times.
+    </p>
+    <div class="flex
+        gap-4">
+      <a
+        href="https://docs.astro.build"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >Astro Docs</a
+      >
+      <a
+        href="https://tailwindcss.com/docs"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >Tailwind CSS</a
+      >
+    </div>
+  </div>
+
+  <div
+    class="p-4 mb-6
+      bg-[#2d2d2d]
+      rounded-md
+      shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+    id="install"
+  >
+    <h3 class="mb-2
+        text-white text-lg font-semibold">
+      Installation & Setup
+    </h3>
+    <p class="mb-3
+        text-[#fff5ee] leading-6">
+      To run this project locally:
+      <br />1. Clone the repository
+      <br />2. Run <code class="bg-[#1c1c25] px-1 rounded">npm install</code>
+      <br />3. Run <code class="bg-[#1c1c25] px-1 rounded">npm run dev</code> to
+      start development server
+      <br />4. Build with <code class="bg-[#1c1c25] px-1 rounded"
+        >npm run build</code
+      >
+    </p>
+    <div class="flex
+        gap-4">
+      <a
+        href="https://github.com/TheFreeloader/Portfolio"
+        target="_blank"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >Repository</a
+      >
+      <a
+        href="#"
+        class="text-[#ffb347] font-medium
+            transition-colors
+            no-underline duration-200 hover:text-[#ffd580]"
+        >Live Demo</a
+      >
+    </div>
+  </div>
+</Modal>

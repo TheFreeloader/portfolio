@@ -1,0 +1,114 @@
+---
+import PythonIcon from "../../assets/python.svg";
+import JavaScriptIcon from "../../assets/javascript.svg";
+import HTMLIcon from "../../assets/html.svg";
+import CSSIcon from "../../assets/css.svg";
+import ReactIcon from "../../assets/react.svg";
+import ViteIcon from "../../assets/vite.svg";
+import TypeScriptIcon from "../../assets/typescript.svg";
+import CppIcon from "../../assets/cpp.svg";
+import PHPIcon from "../../assets/php.svg";
+import NodeIcon from "../../assets/nodejs.svg";
+import FlaskIcon from "../../assets/flask.svg";
+import TailwindIcon from "../../assets/tailwind.svg";
+import JavaIcon from "../../assets/java.svg";
+
+const skills = [
+  { name: "Python", icon: PythonIcon.src },
+  { name: "JavaScript", icon: JavaScriptIcon.src },
+  { name: "TypeScript", icon: TypeScriptIcon.src },
+  { name: "HTML", icon: HTMLIcon.src },
+  { name: "CSS", icon: CSSIcon.src },
+  { name: "React", icon: ReactIcon.src },
+  { name: "Vite", icon: ViteIcon.src },
+  { name: "C++", icon: CppIcon.src },
+  { name: "PHP", icon: PHPIcon.src },
+  { name: "Node.js", icon: NodeIcon.src },
+  { name: "Flask", icon: FlaskIcon.src },
+  { name: "Tailwind CSS", icon: TailwindIcon.src },
+  { name: "Java", icon: JavaIcon.src },
+];
+
+const allSkills = [...skills, ...skills];
+---
+
+<div
+  class="overflow-hidden m-0 bg-[#1c1c25] rounded-xl shadow-lg hover:border hover:border-gray-200 hover:bg-[#2a2a30] transition-all duration-300 ease-in-out"
+>
+  <div class="skills-container relative py-4">
+    <div class="skills-track flex items-center">
+      {
+        allSkills.map((skill) => (
+          <div class="skill-item flex flex-col items-center mx-8">
+            <div class="w-12 h-12 mb-1 flex items-center justify-center">
+              <img
+                src={skill.icon}
+                alt={`${skill.name} logo`}
+                class="max-w-full max-h-full object-contain"
+              />
+            </div>
+            <span class="text-[#fff5ee] text-sm">{skill.name}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .skills-container {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .skills-track {
+    animation: scrollSkills 30s linear infinite;
+    width: max-content;
+  }
+
+  .skill-item {
+    transition: transform 0.3s ease;
+  }
+
+  .skill-item:hover {
+    transform: translateY(-8px);
+  }
+
+  .skills-container::before,
+  .skills-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .skills-container::before {
+    left: 0;
+    background: linear-gradient(
+      to right,
+      rgba(28, 28, 37, 1),
+      rgba(28, 28, 37, 0)
+    );
+  }
+
+  .skills-container::after {
+    right: 0;
+    background: linear-gradient(
+      to left,
+      rgba(28, 28, 37, 1),
+      rgba(28, 28, 37, 0)
+    );
+  }
+
+  @keyframes scrollSkills {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-50% - 1rem));
+    }
+  }
+</style>

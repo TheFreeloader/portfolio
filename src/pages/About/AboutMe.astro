@@ -4,7 +4,6 @@ import NCF from "../../assets/ncf.svg";
 ---
 
 <div class="justify-evenly portfolio-container">
-  <!-- Navigation Buttons -->
   <div class="flex flex-row
       justify-between
       items-center
@@ -139,16 +138,30 @@ import NCF from "../../assets/ncf.svg";
 </div>
 
 <style>
+  .portfolio-container {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+  }
+
   .portfolio-section {
-    display: none;
+    position: absolute;
+    width: 100%;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    margin-bottom: 0;
+    transform: translateX(50px);
+    transition: all 0.5s ease-in-out;
+    pointer-events: none;
   }
 
   .portfolio-section.active {
-    display: block;
     opacity: 1;
+    transform: translateX(0);
+    position: relative;
+    pointer-events: all;
+  }
+
+  .portfolio-section.previous {
+    transform: translateX(-50px);
   }
 
   .dot-indicator.active {
@@ -174,20 +187,24 @@ import NCF from "../../assets/ncf.svg";
     const nextBtn = document.getElementById("nextBtn");
     const dotIndicators = document.querySelectorAll(".dot-indicator");
     const sectionIndicator = document.getElementById("sectionIndicator");
+    const sections = document.querySelectorAll(".portfolio-section");
 
-    function showSection(index: number) {
-      // Hide all sections
-      document.querySelectorAll(".portfolio-section").forEach((section) => {
-        section.classList.remove("active");
+    function showSection(index: number, direction: "next" | "prev" = "next") {
+      sections.forEach((section, i) => {
+        section.classList.remove("active", "previous");
+
+        if (i < index) {
+          section.classList.add("previous");
+        }
       });
-
-      // Show current section
-      const currentSectionElement = document.getElementById(`section-${index}`);
-      if (currentSectionElement) {
-        currentSectionElement.classList.add("active");
-      }
-
-      // Update dot indicators
+      setTimeout(() => {
+        const currentSectionElement = document.getElementById(
+          `section-${index}`
+        );
+        if (currentSectionElement) {
+          currentSectionElement.classList.add("active");
+        }
+      }, 50);
       dotIndicators.forEach((dot, i) => {
         if (i === index) {
           dot.classList.add("active");
@@ -199,36 +216,34 @@ import NCF from "../../assets/ncf.svg";
           dot.classList.add("bg-gray-500");
         }
       });
-
-      // Update section indicator text
       if (sectionIndicator) {
         sectionIndicator.textContent = `${index + 1} of ${totalSections} - ${sectionTitles[index]}`;
       }
     }
 
     function goToPrevious() {
+      const oldSection = currentSection;
       currentSection =
         currentSection > 0 ? currentSection - 1 : totalSections - 1;
-      showSection(currentSection);
+      showSection(currentSection, "prev");
     }
 
     function goToNext() {
+      const oldSection = currentSection;
       currentSection =
         currentSection < totalSections - 1 ? currentSection + 1 : 0;
-      showSection(currentSection);
+      showSection(currentSection, "next");
     }
+
     prevBtn?.addEventListener("click", goToPrevious);
     nextBtn?.addEventListener("click", goToNext);
-
-    // Dot indicator click handlers
     dotIndicators.forEach((dot, index) => {
       dot.addEventListener("click", () => {
+        const direction = index > currentSection ? "next" : "prev";
         currentSection = index;
-        showSection(currentSection);
+        showSection(currentSection, direction);
       });
     });
-
-    // Initialize
     showSection(0);
   });
 </script>

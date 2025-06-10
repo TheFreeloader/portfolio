@@ -1,8 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import AboutMe from "./About/AboutMe.astro";
+import Skills from "./Skills/Skills.astro";
 import Contact from "./Contact/Contact.astro";
 import Projects from "./Project/Projects.astro";
+import Docs from "./Docs/Docs.astro";
+import Recommendation from "./Recommendations/Recommendations.astro";
+import Top from "../assets/top.svg";
+import Bot from "../assets/bot.svg";
 import "../styles/global.css";
 ---
 
@@ -11,7 +16,7 @@ import "../styles/global.css";
       justify-center items-center gap-4">
     <div
       class="overflow-auto
-        w-[30vw] h-[70vh]
+        w-[20vw] h-[70vh]
         p-4
         bg-[#1c1c25]
         rounded-2xl border border-transparent
@@ -21,37 +26,42 @@ import "../styles/global.css";
     >
       <AboutMe />
     </div>
-    <div class="flex flex-col
-        w-full h-full
-        justify-between">
-      <div
-        class="flex flex-col
-          h-[45%]
-          p-4
-          bg-[#1c1c25]
-          rounded-3xl border border-transparent
-          shadow-lg shadow-[#101016] transition-colors
-          hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
-          md:p-5"
-      >
-        <Contact />
-      </div>
-      <div
-        class="flex flex-col
-          h-[53%]
-          p-4
+    <div class="overflow-hidden
+        w-[40vw] h-[70vh] p-0 m-0">
+      <div class="flex flex-col justify-between h-full">
+        <div class="w-full h-[2vh]">
+          <img src={Top.src} />
+        </div>
+        <div class="flex h-[16vh] m-0 items-center">
+          <Contact />
+        </div>
+        <div
+          class="h-[35vh]
+        box-border
+          w-full
+          py-3
+          px-2
+          m-b-0
+          items-center
           border-[#1c1c25] rounded-3xl
           shadow-lg shadow-[#101016]
           md:p-5 md:border-25"
-      >
-        <div
-          class="flex flex-col
-            items-center justify-center gap-4
-            md:flex-row"
         >
-          <Projects />
-          <Projects />
-          <Projects />
+          <div
+            class="flex flex-col m-0
+          items-center justify-center gap-4
+          md:flex-row"
+          >
+            <Projects />
+            <Docs />
+            <Recommendation />
+          </div>
+        </div>
+        <div class="h-[10vh] box-border">
+          <Skills />
+        </div>
+        <div class="w-full h-[2vh]">
+          <img src={Bot.src} />
         </div>
       </div>
     </div>

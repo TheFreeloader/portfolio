@@ -1,0 +1,247 @@
+---
+import Modal from "../../components/Modal/Modal.astro";
+import RecommendationIcon from "../../assets/recommendations.svg";
+
+const cardId = "recommendations";
+
+const recommendations = [
+  {
+    id: "1",
+    name: "John Doe",
+    relationship: "Former Manager",
+    company: "Tech Innovations Inc.",
+    text: "Cyryl is a dedicated professional with exceptional problem-solving skills. His ability to quickly grasp complex concepts and implement efficient solutions made him an invaluable team member.",
+    date: "2024-05-15",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    relationship: "Project Collaborator",
+    company: "WebDev Solutions",
+    text: "Working with Cyryl on our shared project was a pleasure. His technical expertise and collaborative approach ensured we delivered high-quality results ahead of schedule.",
+    date: "2024-04-22",
+  },
+];
+---
+
+<Modal
+  cardId={cardId}
+  cardTitle="Recommendations"
+  cardIcon={RecommendationIcon.src}
+  modalOverlayId="recommendationsModalOverlay"
+  modalContentId="recommendationsContainer"
+  modalHeaderId="recommendationsModalHeader"
+  closeModalId="recommendationsCloseModal"
+  cardElementId="recommendationsCard"
+  maxWidth="700px"
+  maxHeight="80vh"
+>
+  <div class="flex flex-col w-full">
+    <h2
+      class="mt-4 mb-6
+        text-[#fcf5e5] text-[2rem] font-bold
+        text-center"
+    >
+      Professional Recommendations
+    </h2>
+
+    <div class="mb-8">
+      <h3
+        class="mb-4
+          text-[#fcf5e5] text-xl font-semibold
+          text-center"
+      >
+        What People Say
+      </h3>
+
+      <div class="space-y-6">
+        {
+          recommendations.map((rec) => (
+            <div
+              class="p-5
+              bg-[#2d2d2d]
+              rounded-lg
+              shadow-[0_2px_8px_rgba(0,0,0,0.15)]
+              border-l-4 border-[#ffb347]"
+            >
+              <div class="mb-3">
+                <p class="text-[#fff5ee] italic">"{rec.text}"</p>
+              </div>
+              <div class="flex justify-between items-end">
+                <div>
+                  <p class="text-white font-medium">{rec.name}</p>
+                  <p class="text-gray-400 text-sm">
+                    {rec.relationship} at {rec.company}
+                  </p>
+                </div>
+                <p class="text-gray-400 text-xs">
+                  {new Date(rec.date).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Add new recommendation form -->
+    <div
+      class="p-6
+        bg-[#1c1c25]
+        rounded-lg
+        shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+    >
+      <h3
+        class="mb-4
+          text-[#fcf5e5] text-xl font-semibold
+          text-center"
+      >
+        Add Your Recommendation
+      </h3>
+
+      <form id="recommendationForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="name" class="block mb-1 text-[#fcf5e5]">Your Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full p-2
+                bg-[#2d2d2d] text-white
+                border border-gray-700
+                rounded-md
+                focus:border-[#ffb347] focus:outline-none focus:ring-1 focus:ring-[#ffb347]"
+            />
+          </div>
+
+          <div>
+            <label for="relationship" class="block mb-1 text-[#fcf5e5]"
+              >Relationship</label
+            >
+            <input
+              type="text"
+              id="relationship"
+              name="relationship"
+              placeholder="e.g., Colleague, Manager, Client"
+              required
+              class="w-full p-2
+                bg-[#2d2d2d] text-white
+                border border-gray-700
+                rounded-md
+                focus:border-[#ffb347] focus:outline-none focus:ring-1 focus:ring-[#ffb347]"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="company" class="block mb-1 text-[#fcf5e5]">Company</label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            required
+            class="w-full p-2
+              bg-[#2d2d2d] text-white
+              border border-gray-700
+              rounded-md
+              focus:border-[#ffb347] focus:outline-none focus:ring-1 focus:ring-[#ffb347]"
+          />
+        </div>
+
+        <div>
+          <label for="recommendationText" class="block mb-1 text-[#fcf5e5]"
+            >Your Recommendation</label
+          >
+          <textarea
+            id="recommendationText"
+            name="recommendationText"
+            rows="4"
+            required
+            class="w-full p-2
+              bg-[#2d2d2d] text-white
+              border border-gray-700
+              rounded-md
+              focus:border-[#ffb347] focus:outline-none focus:ring-1 focus:ring-[#ffb347]"
+          ></textarea>
+        </div>
+
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="px-6 py-2
+              bg-[#ffb347] text-gray-900 font-medium
+              rounded-md
+              transition-all
+              border-b-4 border-[#e69d29]
+              hover:border-b-0 hover:translate-y-1 active:translate-y-2 active:border-b-0"
+          >
+            Submit Recommendation
+          </button>
+        </div>
+      </form>
+
+      <div id="formResponse" class="mt-4 hidden">
+        <p class="text-green-500 text-center">
+          Thank you for your recommendation!
+        </p>
+      </div>
+    </div>
+  </div>
+</Modal>
+
+<script>
+  // Client-side JavaScript to handle form submission
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById(
+      "recommendationForm"
+    ) as HTMLFormElement;
+    const responseDiv = document.getElementById("formResponse");
+
+    if (form && responseDiv) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const recommendation = {
+          name: formData.get("name"),
+          relationship: formData.get("relationship"),
+          company: formData.get("company"),
+          text: formData.get("recommendationText"),
+          date: new Date().toISOString().split("T")[0],
+        };
+
+        try {
+          // This would be replaced with actual API call to Vercel serverless function
+          const response = await fetch("/api/recommendations", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(recommendation),
+          });
+
+          if (response.ok) {
+            // Show success message
+            responseDiv.classList.remove("hidden");
+            form.reset();
+
+            // Hide message after 3 seconds
+            setTimeout(() => {
+              responseDiv.classList.add("hidden");
+            }, 3000);
+          } else {
+            throw new Error("Failed to submit recommendation");
+          }
+        } catch (error) {
+          console.error("Error submitting recommendation:", error);
+          responseDiv.innerHTML =
+            '<p class="text-red-500 text-center">Error submitting recommendation. Please try again.</p>';
+          responseDiv.classList.remove("hidden");
+        }
+      });
+    }
+  });
+</script>
