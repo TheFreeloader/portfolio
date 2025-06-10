@@ -1,0 +1,209 @@
+---
+// EmailModal.astro - A modal component for sending emails to the portfolio owner
+---
+
+<div
+  id="emailModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+>
+  <div
+    class="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-md w-full shadow-xl"
+  >
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+        Contact Me
+      </h2>
+      <button
+        id="closeEmailModal"
+        class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <form id="emailForm" class="space-y-4">
+      <div>
+        <label
+          for="from"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Your Email</label
+        >
+        <input
+          type="email"
+          id="from"
+          name="from"
+          required
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+          placeholder="your.email@company.com"
+        />
+      </div>
+
+      <div>
+        <label
+          for="subject"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Subject</label
+        >
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          required
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+          placeholder="Job Opportunity"
+        />
+      </div>
+
+      <div>
+        <label
+          for="message"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Message</label
+        >
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          required
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+          placeholder="Write your message here..."></textarea>
+      </div>
+
+      <div class="flex justify-end">
+        <button
+          type="submit"
+          id="sendEmailBtn"
+          class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+        >
+          Send Message
+        </button>
+      </div>
+
+      <div id="emailStatus" class="text-center hidden"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Modal controls
+    const openEmailBtns = document.querySelectorAll("[data-email-modal]");
+    const emailModal = document.getElementById("emailModal");
+    const closeEmailModal = document.getElementById("closeEmailModal");
+    const emailForm = document.getElementById("emailForm") as HTMLFormElement;
+    const emailStatus = document.getElementById("emailStatus");
+
+    // Open modal
+    openEmailBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (emailModal) {
+          emailModal.classList.remove("hidden");
+          document.body.classList.add("overflow-hidden"); // Prevent scrolling when modal is open
+        }
+      });
+    });
+
+    // Close modal
+    closeEmailModal?.addEventListener("click", () => {
+      if (emailModal) {
+        emailModal.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+      }
+      emailForm?.reset();
+      emailStatus?.classList.add("hidden");
+    });
+
+    // Close on outside click
+    emailModal?.addEventListener("click", (e) => {
+      if (e.target === emailModal && emailModal) {
+        emailModal.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+        emailForm?.reset();
+        emailStatus?.classList.add("hidden");
+      }
+    });
+
+    // Form submission
+    emailForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const sendEmailBtn = document.getElementById(
+        "sendEmailBtn"
+      ) as HTMLButtonElement;
+      if (sendEmailBtn) {
+        sendEmailBtn.disabled = true;
+        sendEmailBtn.innerText = "Sending...";
+      }
+
+      try {
+        // Replace this with your actual email sending endpoint
+        // For example, you could use a serverless function or a form service like Formspree
+        const fromElement = document.getElementById("from") as HTMLInputElement;
+        const subjectElement = document.getElementById(
+          "subject"
+        ) as HTMLInputElement;
+        const messageElement = document.getElementById(
+          "message"
+        ) as HTMLTextAreaElement;
+
+        if (!fromElement || !subjectElement || !messageElement) {
+          throw new Error("Form elements not found");
+        }
+
+        const response = await fetch("/api/send-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: fromElement.value,
+            subject: subjectElement.value,
+            message: messageElement.value,
+            to: "your-email@example.com", // Replace with your actual email address
+          }),
+        });
+
+        if (response.ok) {
+          if (emailStatus) {
+            emailStatus.innerText = "Message sent successfully!";
+            emailStatus.classList.remove("hidden", "text-red-500");
+            emailStatus.classList.add("text-green-500");
+          }
+          // Close modal after successful submission (optional)
+          setTimeout(() => {
+            if (emailModal) {
+              emailModal.classList.add("hidden");
+              document.body.classList.remove("overflow-hidden");
+            }
+          }, 1500);
+        } else {
+          throw new Error("Failed to send email");
+        }
+      } catch (error) {
+        if (emailStatus) {
+          emailStatus.innerText =
+            "Failed to send message. Please try again later.";
+          emailStatus.classList.remove("hidden", "text-green-500");
+          emailStatus.classList.add("text-red-500");
+        }
+      } finally {
+        if (sendEmailBtn) {
+          sendEmailBtn.disabled = false;
+          sendEmailBtn.innerText = "Send Message";
+        }
+      }
+    });
+  });
+</script>
