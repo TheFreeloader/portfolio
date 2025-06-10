@@ -1,6 +1,5 @@
 ---
 import CloseButton from "../Buttons/CloseButton.astro";
-import ModalBg from "../../assets/modalbg.svg";
 
 interface Props {
   cardId: string;
@@ -45,15 +44,14 @@ import Card from "../Card/Card.astro";
   >
     <div
       class="overflow-visible
-        w-full
+        w-[30vw]
         p-8
-        bg-cover bg-no-repeat
-        border-[7px] border-[#362b14] rounded-lg
-        shadow-[0_4px_20px_rgba(0,0,0,0.5)] pointer-events-auto
+        bg-gray-950
+        border-gray-500 border-1 rounded-2xl
+        pointer-events-auto
         relative translate-x-0 translate-y-0
         font-['Poppins',sans-serif] before:content-[''] before:absolute before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none"
       id={modalContentId}
-      style={`background-image: url(${ModalBg.src}); max-width: ${maxWidth}; max-height: ${maxHeight};`}
     >
       <div
         class="z-10
@@ -66,7 +64,7 @@ import Card from "../Card/Card.astro";
       >
       </div>
 
-      <CloseButton id={closeModalId}/>
+      <CloseButton id={closeModalId} />
 
       <div
         class="z-[5] overflow-y-auto overflow-x-hidden flex flex-col

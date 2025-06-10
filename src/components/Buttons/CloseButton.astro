@@ -19,10 +19,11 @@ const { id } = Astro.props;
       rounded-full
       shadow-xl
       transform translate-y-[-2px]
-      hover:translate-y-[-1px] active:translate-y-[0px]
+      hover:translate-y-[0px] active:translate-y-[0px]
       transition-all duration-200 ease-in-out
       cursor-pointer
-      border-2 border-red-400 hover:border-red-300"
+      hover:border-t-6 border-red-300
+      border-2 hover:border-red-300"
     id={id}
   >
     <span
@@ -30,23 +31,39 @@ const { id } = Astro.props;
         transform hover:rotate-90 active:rotate-180
         transition-transform duration-300 ease-in-out
         select-none"
-    >&times;</span>
+      >&times;</span
+    >
   </button>
 </div>
 
 <style>
+  button {
+    transform-style: preserve-3d;
+    perspective: 800px;
+  }
+
+  button:hover {
+    transform: translateY(0px) rotateX(20deg);
+  }
+
   button:active {
-    transform: translateY(0) scale(0.95);
+    transform: translateY(0px) rotateX(30deg) scale(0.95);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
-  
+
   button:hover span {
     animation: rotateX 0.3s ease-in-out;
   }
-  
+
   @keyframes rotateX {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(45deg); }
-    100% { transform: rotate(90deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(45deg);
+    }
+    100% {
+      transform: rotate(90deg);
+    }
   }
 </style>

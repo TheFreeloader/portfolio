@@ -4,24 +4,15 @@ import RecommendationIcon from "../../assets/recommendations.svg";
 
 const cardId = "recommendations";
 
-const recommendations = [
-  {
-    id: "1",
-    name: "John Doe",
-    relationship: "Former Manager",
-    company: "Tech Innovations Inc.",
-    text: "Cyryl is a dedicated professional with exceptional problem-solving skills. His ability to quickly grasp complex concepts and implement efficient solutions made him an invaluable team member.",
-    date: "2024-05-15",
-  },
-  {
-    id: "2",
-    name: "Jane Smith",
-    relationship: "Project Collaborator",
-    company: "WebDev Solutions",
-    text: "Working with Cyryl on our shared project was a pleasure. His technical expertise and collaborative approach ensured we delivered high-quality results ahead of schedule.",
-    date: "2024-04-22",
-  },
-];
+interface Recommendation {
+  name: string;
+  relationship: string;
+  company: string;
+  text: string;
+  date: string;
+}
+
+const recommendations: Recommendation[] = [];
 ---
 
 <Modal

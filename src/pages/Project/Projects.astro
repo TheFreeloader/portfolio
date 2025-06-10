@@ -14,118 +14,156 @@ const cardId = "projects";
   modalHeaderId="projectModalHeader"
   closeModalId="projectCloseModal"
   cardElementId="projectsCard"
-  maxWidth="700px"
+  maxWidth="500px"
   maxHeight="60vh"
 >
   <!-- Modal Content Slot -->
   <h2
     class="flex
       mt-4 mb-4
-      text-[#fcf5e5] text-[2rem]
-      self-center"
+      text-gray-500 text-[2rem]
+      self-center font-bold"
   >
-    My Projects
+    Projects
   </h2>
 
   <div
     class="p-4 mb-6
-      bg-[#2d2d2d]
+      bg-gray-900
       rounded-md
       shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
   >
-    <h3 class="mb-2
-        text-white text-lg font-semibold">Project 1</h3>
-    <p class="mb-3
-        text-[#fff5ee] leading-6">
-      A description of your first project. Include technologies used and the
-      purpose of the project.
-    </p>
-    <div class="flex
-        gap-4">
+    <h3 class="mb-2 text-center
+        text-gray-400 text-lg font-semibold">
+      Laboratory Inventory Management System
+    </h3>
+
+    <div class="mb-3 website-preview">
       <a
-        href="#"
+        href="https://chs-laboratory-management-system.vercel.app/"
         target="_blank"
-        class="text-[#ffb347] font-medium
-            transition-colors
-            no-underline duration-200 hover:text-[#ffd580]"
-        >View Demo</a
+        rel="noopener noreferrer"
       >
-      <a
-        href="#"
-        target="_blank"
-        class="text-[#ffb347] font-medium
-            transition-colors
-            no-underline duration-200 hover:text-[#ffd580]"
-        >GitHub</a
-      >
+        <img
+          src="https://api.microlink.io?url=https://chs-laboratory-management-system.vercel.app/&screenshot=true&embed=screenshot.url"
+          alt="CHS Laboratory System Preview"
+          class="rounded-md w-full h-auto"
+        />
+      </a>
     </div>
+
+    <p class="mb-3
+        text-gray-400 leading-6">
+      Full-stack lab inventory management application built with React.js (Vite)
+      and Flask. It offers robust features for tracking inventory, predicting
+      demand, and streamlining transactions.
+    </p>
   </div>
 
   <div
     class="p-4 mb-6
-      bg-[#2d2d2d]
+      bg-gray-900
       rounded-md
       shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
   >
-    <h3 class="mb-2
-        text-white text-lg font-semibold">Project 2</h3>
-    <p class="mb-3
-        text-[#fff5ee] leading-6">
-      A description of your second project. Include technologies used and the
-      purpose of the project.
-    </p>
-    <div class="flex
-        gap-4">
+    <h3 class="mb-2 text-center
+        text-gray-400 text-lg font-semibold">
+      Kitchen Management System
+    </h3>
+
+    <div class="mb-3 website-preview">
       <a
-        href="#"
+        href="https://apicius.vercel.app/"
         target="_blank"
-        class="text-[#ffb347] font-medium
-            transition-colors
-            no-underline duration-200 hover:text-[#ffd580]"
-        >View Demo</a
+        rel="noopener noreferrer"
       >
-      <a
-        href="#"
-        target="_blank"
-        class="text-[#ffb347] font-medium
-            transition-colors
-            no-underline duration-200 hover:text-[#ffd580]"
-        >GitHub</a
-      >
+        <img
+          src="https://api.microlink.io?url=https://apicius.vercel.app/&screenshot=true&embed=screenshot.url"
+          alt="KMS Preview"
+          class="rounded-md w-full h-auto"
+        />
+      </a>
     </div>
+
+    <p class="mb-3
+        text-gray-400 leading-6">
+      Full-stack kitchen operations and culinary management web application
+      built with React.js (Vite) and Node.js. It's designed to streamline your
+      kitchen management workflow
+    </p>
   </div>
 
   <div
     class="p-4 mb-6
-      bg-[#2d2d2d]
+      bg-gray-900
       rounded-md
       shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
   >
-    <h3 class="mb-2
-        text-white text-lg font-semibold">Project 3</h3>
-    <p class="mb-3
-        text-[#fff5ee] leading-6">
-      A description of your third project. Include technologies used and the
-      purpose of the project.
-    </p>
-    <div class="flex
-        gap-4">
+    <h3 class="mb-2 text-center
+        text-gray-400 text-lg font-semibold">
+      Liver Health Checker
+    </h3>
+
+    <div class="mb-3 website-preview">
       <a
-        href="#"
+        href="https://capstone-liver-diagnosis.vercel.app/"
         target="_blank"
-        class="text-[#ffb347] font-medium
-            transition-colors
-            no-underline duration-200 hover:text-[#ffd580]"
-        >View Demo</a
+        rel="noopener noreferrer"
       >
-      <a
-        href="#"
-        target="_blank"
-        class="text-[#ffb347] font-medium
-            transition-colors
-            no-underline duration-200 hover:text-[#ffd580]"
-        >GitHub</a
-      >
+        <img
+          src="https://api.microlink.io?url=https://capstone-liver-diagnosis.vercel.app/&screenshot=true&embed=screenshot.url"
+          alt="Liver Health Checker Preview"
+          class="rounded-md w-full h-auto"
+        />
+      </a>
     </div>
+
+    <p class="mb-3
+        text-gray-400 leading-6">
+      A web application leveraging a Bayesian algorithm to accurately classify
+      individuals for liver disease detection based on patient data. Built with
+      Next.js for the front-end and Flask for the back-end, it aims to assist in
+      early detection and improve healthcare outcomes.
+    </p>
+  </div>
+
+  <div
+    class="p-4 mb-6
+      bg-gray-900
+      rounded-md
+      shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+  >
+    <h3 class="mb-2 text-center
+        text-gray-400 text-lg font-semibold">
+      Pyclonix
+    </h3>
+
+    <div class="mb-3 website-preview">
+      <a
+        href="https://frontend-pyclonix.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="https://api.microlink.io?url=https://frontend-pyclonix.vercel.app/&screenshot=true&embed=screenshot.url"
+          alt="Liver Health Checker Preview"
+          class="rounded-md w-full h-auto"
+        />
+      </a>
+    </div>
+
+    <p class="mb-3
+        text-gray-400 leading-6">
+      Pyclonix is a plagiarism checker for simple Python codes, built with React
+      and Node.js.
+    </p>
   </div>
 </Modal>
+
+<style>
+  .website-preview {
+    border-radius: 0.25rem;
+    overflow: hidden;
+    border: 1px solid #444;
+  }
+</style>
