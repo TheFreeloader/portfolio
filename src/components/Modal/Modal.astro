@@ -1,5 +1,6 @@
 ---
 import CloseButton from "../Buttons/CloseButton.astro";
+import Card from "../Card/Card.astro";
 
 interface Props {
   cardId: string;
@@ -28,8 +29,6 @@ const {
   maxHeight = "50vh",
   excludeFromDrag = [],
 } = Astro.props;
-
-import Card from "../Card/Card.astro";
 ---
 
 <div>
@@ -38,50 +37,28 @@ import Card from "../Card/Card.astro";
   </div>
 
   <div
-    class="hidden z-[1000] fixed pointer-events-none [&.visible]:block"
+    class="hidden z-[1000] pointer-events-none fixed [&.visible]:block"
     id={modalOverlayId}
     style="top: 50%; left: 50%; transform: translate(-50%, -50%);"
   >
     <div
-      class="overflow-visible
-             w-[90vw] max-w-[400px] md:w-[30vw]
-             min-h-[300px] max-h-[80vh] md:min-h-0 md:max-h-none
-             p-4 md:p-8
-             bg-gray-950
-             border-gray-500 border md:border-1 rounded-2xl
-             pointer-events-auto
-             relative translate-x-0 translate-y-0
-             font-['Poppins',sans-serif] 
-             before:content-[''] before:absolute 
-             before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] 
-             before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none
-             shadow-2xl shadow-black/50 md:shadow-none"
+      class="overflow-visible w-[90vw] max-w-[400px] min-h-[300px] max-h-[80vh] p-4 font-['Poppins',sans-serif] bg-gray-950 border-gray-500 border rounded-2xl pointer-events-auto relative translate-x-0 translate-y-0 md:overflow-hidden md:min-w-[30vw] md:min-h-[40vh] md:max-h-[60vh] md:p-8 md:border-1 before:content-[''] before:absolute before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none shadow-2xl shadow-black/50 md:shadow-none"
       id={modalContentId}
+      style={`max-width: ${maxWidth}; max-height: ${maxHeight};`}
     >
       <div
-        class="z-10
-               w-full h-[50px]
-               bg-[rgba(0,0,0,0.1)]
-               border-b-2 border-dashed border-[rgba(252,245,229,0.5)]
-               cursor-move transition-colors
-               absolute top-0 left-0 hover:border-b-[rgba(252,245,229,0.8)] duration-200 modal_header
-               flex items-center justify-center md:justify-start
-               px-4 md:px-0
-               touch-manipulation"
+        class="z-10 flex w-full h-[50px] px-4 bg-[rgba(0,0,0,0.1)] border-b-2 border-dashed border-[rgba(252,245,229,0.5)] cursor-move transition-colors absolute top-0 left-0 hover:border-b-[rgba(252,245,229,0.8)] duration-200 modal_header items-center justify-center touch-manipulation md:px-0 md:justify-start"
         id={modalHeaderId}
       >
-        <!-- Mobile drag indicator (hidden on desktop) -->
-        <div class="w-8 h-1 bg-gray-400 rounded-full opacity-60 md:hidden"></div>
+        <div class="w-8 h-1 bg-gray-400 rounded-full opacity-60 md:hidden">
+        </div>
       </div>
 
       <CloseButton id={closeModalId} />
 
       <div
-        class="z-[5] overflow-y-auto overflow-x-hidden flex flex-col
-               pt-2 p-1
-               select-none
-               relative -m-[5px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        style={`max-height: calc(${maxHeight} - 70px);`}
+        class="z-[5] flex flex-col pt-2 p-1 select-none relative -m-[5px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        style={`overflow-y: auto; overflow-x: hidden; max-height: calc(${maxHeight} - 70px); margin-top: 50px;`}
       >
         <slot />
       </div>
@@ -133,7 +110,6 @@ import Card from "../Card/Card.astro";
   .dragging {
     user-select: none;
   }
-
   .modal_svg rect {
     stroke: #362b14;
     stroke-width: 7;
@@ -141,8 +117,6 @@ import Card from "../Card/Card.astro";
     stroke-dasharray: 778;
     stroke-dashoffset: 0;
   }
-
-  /* Mobile-first styles (default) */
   .modal_header {
     background: linear-gradient(
       135deg,
@@ -151,14 +125,12 @@ import Card from "../Card/Card.astro";
     );
     backdrop-filter: blur(10px);
     min-height: 50px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
   }
-  
-  /* Ensure modals don't overlap viewport edges on mobile */
   [id$="modalOverlay"] {
     margin: 10px;
   }
-
-  /* Close button mobile-first styling */
   [id$="CloseButton"] {
     top: 0.75rem;
     right: 0.75rem;
@@ -166,18 +138,14 @@ import Card from "../Card/Card.astro";
     height: 2rem;
     z-index: 20;
   }
-
-  /* Desktop overrides - matches your original format */
   @media (min-width: 768px) {
     .modal_header {
       background: rgba(0, 0, 0, 0.1);
       backdrop-filter: none;
     }
-    
     [id$="modalOverlay"] {
       margin: 0;
     }
-    
     [id$="CloseButton"] {
       top: 1rem;
       right: 1rem;
@@ -185,27 +153,15 @@ import Card from "../Card/Card.astro";
       height: 1.5rem;
     }
   }
-
-  /* Multi-modal stacking support */
-  .modal-stack-1 { z-index: 1001; }
-  .modal-stack-2 { z-index: 1002; }
-  .modal-stack-3 { z-index: 1003; }
-  .modal-stack-4 { z-index: 1004; }
-  .modal-stack-5 { z-index: 1005; }
-
-  /* Dragging states */
   .modal-dragging {
     user-select: none;
     transform-origin: center;
     transition: none !important;
   }
-  
   .modal-dragging .modal_header {
     background: rgba(0, 0, 0, 0.2);
     border-color: rgba(252, 245, 229, 1);
   }
-
-  /* Smooth transitions for responsive changes */
   @media (prefers-reduced-motion: no-preference) {
     .modal_header {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
