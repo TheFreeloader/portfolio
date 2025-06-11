@@ -45,9 +45,7 @@ export function initializeModal(config: ModalConfig) {
   let yOffset = 0;
 
   const bringToFront = () => {
-    if (modalContainer) {
-      modalContainer.style.zIndex = String(globalModalZ++);
-    }
+    if (modalContainer) modalContainer.style.zIndex = String(globalModalZ++);
   };
 
   if (isModalOpen(cardId) && modalContainer) {
@@ -57,40 +55,35 @@ export function initializeModal(config: ModalConfig) {
   }
 
   if (cardElement && modalContainer && closeModal) {
-    cardElement.addEventListener("click", (event) => {
+    const openModal = (event: Event) => {
       if (isModalOpen(cardId)) {
         bringToFront();
         event.preventDefault();
         event.stopPropagation();
         return;
       }
-
       if (!canCardBeClicked(cardId)) {
         event.preventDefault();
         event.stopPropagation();
         return;
       }
-
       setCardClicked(cardId, true);
       setModalOpen(cardId, true);
-
-      if (cardInnerElement) {
-        cardInnerElement.classList.add("card-clicked");
-      }
-
+      cardInnerElement?.classList.add("card-clicked");
       modalContainer.classList.remove("hidden");
       modalContainer.classList.add("visible");
       bringToFront();
-
       if (modalContent) {
         modalContent.style.transform = "translate(0px, 0px)";
         xOffset = 0;
         yOffset = 0;
       }
-
       event.preventDefault();
       event.stopPropagation();
-    });
+    };
+
+    cardElement.addEventListener("click", openModal, { passive: false });
+    cardElement.addEventListener("touchstart", openModal, { passive: false });
 
     modalContainer.addEventListener("click", (event) => {
       bringToFront();
@@ -116,11 +109,7 @@ export function initializeModal(config: ModalConfig) {
       setModalOpen(cardId, false);
       modalContainer.classList.add("hidden");
       modalContainer.classList.remove("visible");
-
-      if (cardInnerElement) {
-        cardInnerElement.classList.remove("card-clicked");
-      }
-
+      cardInnerElement?.classList.remove("card-clicked");
       event.preventDefault();
       event.stopPropagation();
     });
@@ -132,23 +121,16 @@ export function initializeModal(config: ModalConfig) {
         );
         let isTopmost = true;
         let currentZIndex = parseInt(modalContainer.style.zIndex || "0");
-
         allModals.forEach((modal) => {
           const zIndex = parseInt((modal as HTMLElement).style.zIndex || "0");
-          if (zIndex > currentZIndex) {
-            isTopmost = false;
-          }
+          if (zIndex > currentZIndex) isTopmost = false;
         });
-
         if (isTopmost) {
           setCardClicked(cardId, false);
           setModalOpen(cardId, false);
           modalContainer.classList.add("hidden");
           modalContainer.classList.remove("visible");
-
-          if (cardInnerElement) {
-            cardInnerElement.classList.remove("card-clicked");
-          }
+          cardInnerElement?.classList.remove("card-clicked");
         }
       }
     });
@@ -160,9 +142,8 @@ export function initializeModal(config: ModalConfig) {
         e.target === modalHeader ||
         (e.target instanceof Element && e.target.closest(".modal_header"))
       )
-    ) {
+    )
       return;
-    }
 
     const defaultExclusions = [".close_button", "INPUT", "TEXTAREA", "BUTTON"];
     const allExclusions = [...defaultExclusions, ...excludeFromDrag];
@@ -178,10 +159,7 @@ export function initializeModal(config: ModalConfig) {
     }
 
     bringToFront();
-
-    if (modalContent) {
-      modalContent.classList.add("dragging");
-    }
+    modalContent?.classList.add("dragging");
 
     if (e.type === "touchstart") {
       const touchEvent = e as TouchEvent;
@@ -194,7 +172,6 @@ export function initializeModal(config: ModalConfig) {
     }
 
     isDragging = true;
-
     if (e.type === "mousedown" || (e.type === "touchstart" && e.cancelable)) {
       e.preventDefault();
     }
@@ -209,11 +186,8 @@ export function initializeModal(config: ModalConfig) {
 
   function drag(e: MouseEvent | TouchEvent) {
     if (isDragging) {
-      if (e.cancelable) {
-        e.preventDefault();
-      }
+      if (e.cancelable) e.preventDefault();
       e.stopPropagation();
-
       if (e.type === "touchmove") {
         const touchEvent = e as TouchEvent;
         currentX = touchEvent.touches[0].clientX - initialX;
@@ -223,10 +197,8 @@ export function initializeModal(config: ModalConfig) {
         currentX = mouseEvent.clientX - initialX;
         currentY = mouseEvent.clientY - initialY;
       }
-
       xOffset = currentX;
       yOffset = currentY;
-
       if (modalContent) {
         modalContent.style.transform = `translate(${currentX}px, ${currentY}px)`;
       }
@@ -235,9 +207,7 @@ export function initializeModal(config: ModalConfig) {
 
   if (modalContent) {
     modalContent.addEventListener("mousedown", dragStart);
-    modalContent.addEventListener("touchstart", dragStart, {
-      passive: false,
-    });
+    modalContent.addEventListener("touchstart", dragStart, { passive: false });
     document.addEventListener("mouseup", dragEnd);
     document.addEventListener("touchend", dragEnd, { passive: true });
     document.addEventListener("mousemove", drag);
