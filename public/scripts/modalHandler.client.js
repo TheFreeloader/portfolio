@@ -37,6 +37,11 @@
     }
 
     if (cardElement && modalContainer && closeModal) {
+      // Long press logic
+      var pressTimer = null;
+      var isLongPress = false;
+      var longPressDuration = 500;
+
       function openModal(event) {
         if (window.isModalOpen && window.isModalOpen(cardId)) {
           bringToFront();
@@ -72,8 +77,40 @@
         event.stopPropagation();
       }
 
-      cardElement.addEventListener("click", openModal, { passive: false });
-      cardElement.addEventListener("touchstart", openModal, { passive: false });
+      function startPress(event) {
+        if (pressTimer) clearTimeout(pressTimer);
+        isLongPress = false;
+        pressTimer = setTimeout(function () {
+          isLongPress = true;
+          openModal(event);
+        }, longPressDuration);
+      }
+
+      function cancelPress(event) {
+        if (pressTimer) clearTimeout(pressTimer);
+      }
+
+      // Remove direct click/touchstart open
+      // cardElement.addEventListener("click", openModal, { passive: false });
+      // cardElement.addEventListener("touchstart", openModal, { passive: false });
+
+      // Long press events
+      cardElement.addEventListener("touchstart", startPress, {
+        passive: false,
+      });
+      cardElement.addEventListener("touchend", cancelPress);
+      cardElement.addEventListener("touchmove", cancelPress);
+      cardElement.addEventListener("mousedown", startPress);
+      cardElement.addEventListener("mouseup", cancelPress);
+      cardElement.addEventListener("mouseleave", cancelPress);
+
+      // Prevent modal on normal tap/click
+      cardElement.addEventListener("click", function (e) {
+        if (!isLongPress) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      });
 
       modalContainer.addEventListener("click", function (event) {
         bringToFront();
