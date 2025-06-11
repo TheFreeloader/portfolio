@@ -90,7 +90,7 @@ const {
   };
 
   function initThisModal() {
-    import("/src/scripts/modalHandler.client.ts")
+    import("/src/scripts/modalHandler.client.js")
       .then((module) => {
         module.initializeModal(window[configKey]);
       })
