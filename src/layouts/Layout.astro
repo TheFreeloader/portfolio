@@ -19,7 +19,7 @@ import DottedBG from "../assets/dotted_bg.svg";
     <title>Portfolio-CJN</title>
   </head>
   <body
-    class="m-0 p-0 bg-[#000000] h-screen flex relative"
+    class="m-0 p-0 bg-[#000000] md:h-screen flex md:relative h-min-screen"
     style={`background-image: url(${DottedBG.src}); background-repeat: repeat; background-size: 160px; `}
   >
     <!-- Custom dark bluish overlay with blur -->
@@ -30,7 +30,7 @@ import DottedBG from "../assets/dotted_bg.svg";
     </div>
 
     <div
-      class="flex flex-col justify-center items-center w-full h-full relative z-10"
+      class="flex flex-col justify-center items-center md:w-full md:h-full md:relative z-10 p-4 md:p-0"
     >
       <slot />
     </div>

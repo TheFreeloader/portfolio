@@ -44,33 +44,43 @@ import Card from "../Card/Card.astro";
   >
     <div
       class="overflow-visible
-        w-[30vw]
-        p-8
-        bg-gray-950
-        border-gray-500 border-1 rounded-2xl
-        pointer-events-auto
-        relative translate-x-0 translate-y-0
-        font-['Poppins',sans-serif] before:content-[''] before:absolute before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none"
+             w-[90vw] max-w-[400px] md:w-[30vw]
+             min-h-[300px] max-h-[80vh] md:min-h-0 md:max-h-none
+             p-4 md:p-8
+             bg-gray-950
+             border-gray-500 border md:border-1 rounded-2xl
+             pointer-events-auto
+             relative translate-x-0 translate-y-0
+             font-['Poppins',sans-serif] 
+             before:content-[''] before:absolute 
+             before:-top-[7px] before:-left-[7px] before:-right-[7px] before:-bottom-[7px] 
+             before:-z-10 before:bg-transparent before:rounded-lg before:pointer-events-none
+             shadow-2xl shadow-black/50 md:shadow-none"
       id={modalContentId}
     >
       <div
         class="z-10
-          w-full h-[50px]
-          bg-[rgba(0,0,0,0.1)]
-          border-b-2 border-dashed border-[rgba(252,245,229,0.5)]
-          cursor-move transition-colors
-          absolute top-0 left-0 hover:border-b-[rgba(252,245,229,0.8)] duration-200 modal_header"
+               w-full h-[50px]
+               bg-[rgba(0,0,0,0.1)]
+               border-b-2 border-dashed border-[rgba(252,245,229,0.5)]
+               cursor-move transition-colors
+               absolute top-0 left-0 hover:border-b-[rgba(252,245,229,0.8)] duration-200 modal_header
+               flex items-center justify-center md:justify-start
+               px-4 md:px-0
+               touch-manipulation"
         id={modalHeaderId}
       >
+        <!-- Mobile drag indicator (hidden on desktop) -->
+        <div class="w-8 h-1 bg-gray-400 rounded-full opacity-60 md:hidden"></div>
       </div>
 
       <CloseButton id={closeModalId} />
 
       <div
         class="z-[5] overflow-y-auto overflow-x-hidden flex flex-col
-          pt-2 p-1
-          select-none
-          relative -m-[5px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+               pt-2 p-1
+               select-none
+               relative -m-[5px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         style={`max-height: calc(${maxHeight} - 70px);`}
       >
         <slot />
@@ -130,5 +140,75 @@ import Card from "../Card/Card.astro";
     fill: transparent;
     stroke-dasharray: 778;
     stroke-dashoffset: 0;
+  }
+
+  /* Mobile-first styles (default) */
+  .modal_header {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
+    backdrop-filter: blur(10px);
+    min-height: 50px;
+  }
+  
+  /* Ensure modals don't overlap viewport edges on mobile */
+  [id$="modalOverlay"] {
+    margin: 10px;
+  }
+
+  /* Close button mobile-first styling */
+  [id$="CloseButton"] {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2rem;
+    height: 2rem;
+    z-index: 20;
+  }
+
+  /* Desktop overrides - matches your original format */
+  @media (min-width: 768px) {
+    .modal_header {
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: none;
+    }
+    
+    [id$="modalOverlay"] {
+      margin: 0;
+    }
+    
+    [id$="CloseButton"] {
+      top: 1rem;
+      right: 1rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  /* Multi-modal stacking support */
+  .modal-stack-1 { z-index: 1001; }
+  .modal-stack-2 { z-index: 1002; }
+  .modal-stack-3 { z-index: 1003; }
+  .modal-stack-4 { z-index: 1004; }
+  .modal-stack-5 { z-index: 1005; }
+
+  /* Dragging states */
+  .modal-dragging {
+    user-select: none;
+    transform-origin: center;
+    transition: none !important;
+  }
+  
+  .modal-dragging .modal_header {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(252, 245, 229, 1);
+  }
+
+  /* Smooth transitions for responsive changes */
+  @media (prefers-reduced-motion: no-preference) {
+    .modal_header {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
 </style>

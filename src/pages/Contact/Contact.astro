@@ -10,15 +10,15 @@ import EmailModal from "@components/Modal/EmailModal.astro";
 ---
 
 <div class="box-border w-full">
-  <div class="flex flex-row w-full gap-5">
+  <div class="flex flex-col md:flex-row w-full gap-5">
     <div
       class="p-7
-        w-[55%]
+        md:w-[55%]
           text-center
           cursor-pointer
           rounded-3xl border border-transparent
           bg-[#1c1c25]
-          shadow-lg shadow-[#101016] transition-colors
+          shadow-md shadow-[#101016] transition-colors
           hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
           justify-center relative group"
     >
@@ -42,14 +42,17 @@ import EmailModal from "@components/Modal/EmailModal.astro";
           />
           <div
             class="overflow-hidden
-                w-0
-                text-white text-xs whitespace-nowrap
-                transition-all
-                duration-300 ease-out absolute top-0 right-3 rounded
-                group-hover:w-[105px]"
+              w-[105px] opacity-100
+              text-white text-xs whitespace-nowrap
+              transition-all
+              duration-300 ease-out absolute top-0 right-3 rounded
+              block
+              md:w-0 md:opacity-0
+              md:group-hover:w-[105px] md:group-hover:opacity-100"
           >
             <span
-              class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150"
+              class="opacity-100 transition-opacity duration-300 delay-150
+                md:opacity-0 md:group-hover:opacity-100"
               >Click to open</span
             >
           </div>
@@ -66,11 +69,15 @@ import EmailModal from "@components/Modal/EmailModal.astro";
             class="bg-gray-800
                   rounded-full border-b-6 border-[#101016]
                   transition-all
-                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px] block z-10"
             title="Facebook"
             aria-label="Facebook"
           >
-            <img src={Fb.src} alt="Facebook" class="w-14 h-14" />
+            <img
+              src={Fb.src}
+              alt="Facebook"
+              class="w-14 h-14 pointer-events-none"
+            />
           </a>
         </div>
         <div class="flex flex-col
@@ -82,11 +89,15 @@ import EmailModal from "@components/Modal/EmailModal.astro";
             class="bg-gray-800
                   rounded-full border-b-6 border-[#101016]
                   transition-all
-                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px] block z-10"
             title="Instagram"
             aria-label="Instagram"
           >
-            <img src={Insta.src} alt="Instagram" class="w-14 h-14" />
+            <img
+              src={Insta.src}
+              alt="Instagram"
+              class="w-14 h-14 pointer-events-none"
+            />
           </a>
         </div>
         <div class="flex flex-col
@@ -98,11 +109,15 @@ import EmailModal from "@components/Modal/EmailModal.astro";
             class="bg-gray-800
                   rounded-full border-b-6 border-[#101016]
                   transition-all
-                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px] block z-10"
             title="linkedin"
             aria-label="linkedin"
           >
-            <img src={Linkedin.src} alt="linkedin" class="w-14 h-14" />
+            <img
+              src={Linkedin.src}
+              alt="linkedin"
+              class="w-14 h-14 pointer-events-none"
+            />
           </a>
         </div>
         <div class="flex flex-col
@@ -114,11 +129,15 @@ import EmailModal from "@components/Modal/EmailModal.astro";
             class="bg-gray-800
                   rounded-full border-b-6 border-[#101016]
                   transition-all
-                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px] block z-10"
             title="Github"
             aria-label="Github"
           >
-            <img src={Github.src} alt="Github" class="w-14 h-14" />
+            <img
+              src={Github.src}
+              alt="Github"
+              class="w-14 h-14 pointer-events-none"
+            />
           </a>
         </div>
         <div class="flex flex-col
@@ -130,69 +149,76 @@ import EmailModal from "@components/Modal/EmailModal.astro";
             class="bg-gray-800
                   rounded-full border-b-6 border-[#101016]
                   transition-all
-                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px]"
+                  nav-btn items-center justify-center relative hover:border-b-0 hover:translate-y-[2px] active:border-b-0 active:translate-y-[4px] block z-10"
             title="Dev.to"
             aria-label="Dev.to"
           >
-            <img src={Dev.src} alt="Dev.to" class="w-14 h-14" />
-          </a>
-        </div>
-      </div>
-    </div>
-    <div
-      class="p-7
-              w-[30%]
-              flex flex-row
-              text-center
-              cursor-pointer
-              rounded-3xl border border-transparent
-              bg-[#1c1c25]
-              shadow-lg shadow-[#101016] transition-colors
-              hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
-              justify-between relative group"
-    >
-      <div class="w-full flex flex-col items-center justify-center">
-        <h1 class="mb-4 text-white text-2xl font-bold">Contact</h1>
-        <button
-          id="emailBtn"
-          class="bg-gray-800 text-white px-6 py-3 rounded-full border-b-6 border-[#101016]
-          transition-all hover:border-b-0 hover:translate-y-[2px]
-          active:border-b-0 active:translate-y-[4px] w-full max-w-[200px]"
-        >
-          Email Me
-        </button>
-      </div>
-    </div>
-    <div
-      class="p-5
-              w-[15%]
-              flex flex-row
-              text-center
-              cursor-pointer
-              rounded-3xl border border-transparent
-              bg-[#1c1c25]
-              shadow-lg shadow-[#101016] transition-colors
-              hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
-              justify-between relative group"
-    >
-      <div class="w-full flex flex-col items-center justify-center">
-        <div class="relative w-full h-[84px]">
-          <a
-            href="/Resume.pdf"
-            download
-            class="bg-gray-800 px-0 py-2 border-b-6 rounded-2xl border-[#101016]
-                        transition-all hover:border-b-0 hover:translate-y-[2px] box-border
-                        active:border-b-0 active:translate-y-[4px] block w-full text-center
-                        absolute top-0 left-0 right-0"
-          >
             <img
-              src={CV.src}
-              alt="Download CV"
-              class="w-12 h-12 inline-block"
+              src={Dev.src}
+              alt="Dev.to"
+              class="w-14 h-14 pointer-events-none"
             />
           </a>
         </div>
-        <h2 class="text-white text-xs font-semibold mt-0.5">Download CV</h2>
+      </div>
+    </div>
+    <div class="flex flex-row gap-5 md:w-[45%]">
+      <div
+        class="p-7
+              w-[70%]
+              flex flex-row
+              text-center
+              cursor-pointer
+              rounded-3xl border border-transparent
+              bg-[#1c1c25]
+              shadow-md shadow-[#101016] transition-colors
+              hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
+              justify-between relative group"
+      >
+        <div class="w-full flex flex-col items-center justify-center">
+          <h1 class="mb-4 text-white text-2xl font-bold">Contact</h1>
+          <button
+            id="emailBtn"
+            class="bg-gray-800 text-white px-6 py-3 rounded-full border-b-6 border-[#101016]
+          transition-all hover:border-b-0 hover:translate-y-[2px]
+          active:border-b-0 active:translate-y-[4px] w-full max-w-[200px] cursor-pointer z-10 relative"
+          >
+            Email Me
+          </button>
+        </div>
+      </div>
+      <div
+        class="p-5
+              md:w-[30%]
+              flex flex-row
+              text-center
+              cursor-pointer
+              rounded-3xl border border-transparent
+              bg-[#1c1c25]
+              shadow-md shadow-[#101016] transition-colors
+              hover:bg-[#2a2a30] hover:border-gray-200 duration-200 ease-in-out
+              justify-between relative group"
+      >
+        <div class="w-full flex flex-col items-center justify-center">
+          <div
+            class="relative w-full h-[84px] flex items-center justify-center"
+          >
+            <a
+              href="/Resume.pdf"
+              download
+              class="bg-gray-800 px-2 py-2 border-b-6 rounded-2xl border-[#101016]
+        transition-all hover:border-b-0 hover:translate-y-[2px] box-border
+        active:border-b-0 active:translate-y-[4px] block text-center z-10 relative cursor-pointer"
+            >
+              <img
+                src={CV.src}
+                alt="Download CV"
+                class="w-12 h-12 inline-block pointer-events-none"
+              />
+            </a>
+          </div>
+          <h2 class="text-white text-xs font-semibold mt-0.5">Download CV</h2>
+        </div>
       </div>
     </div>
   </div>
@@ -201,12 +227,24 @@ import EmailModal from "@components/Modal/EmailModal.astro";
 <EmailModal id="emailModal" />
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  function initializeModal() {
     const emailBtn = document.getElementById("emailBtn");
     const emailModal = document.getElementById("emailModal");
 
-    emailBtn?.addEventListener("click", () => {
-      emailModal?.classList.remove("hidden");
-    });
-  });
+    if (emailBtn && emailModal) {
+      emailBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        emailModal.classList.remove("hidden");
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeModal);
+  } else {
+    initializeModal();
+  }
+
+  setTimeout(initializeModal, 100);
 </script>

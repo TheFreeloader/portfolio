@@ -3,23 +3,23 @@ import Me from "../../assets/me.jpeg";
 import NCF from "../../assets/ncf.svg";
 ---
 
-<div class="justify-evenly portfolio-container">
+<div class="flex flex-col justify-between portfolio-container">
   <div class="flex flex-row
       justify-between
       items-center
       mb-6">
     <button
       id="prevBtn"
-      class="flex
-              w-14 h-14
-              bg-gray-800
-              rounded-full
-              transition-all
-              nav-btn items-center justify-center
-              relative
-              border-b-6 border-[#101016]
-              hover:border-b-0 hover:translate-y-[2px]
-              active:border-b-0 active:translate-y-[4px]"
+      class="hidden md:flex
+         w-14 h-14
+         bg-gray-800
+         rounded-full
+         transition-all
+         nav-btn items-center justify-center
+         relative
+         border-b-6 border-[#101016]
+         hover:border-b-0 hover:translate-y-[2px]
+         active:border-b-0 active:translate-y-[4px]"
       aria-label="Previous section"
     >
       <svg
@@ -57,17 +57,17 @@ import NCF from "../../assets/ncf.svg";
 
     <button
       id="nextBtn"
-      class="flex
-              w-14 h-14
-              bg-gray-800
-              rounded-full
-              transition-all
-              nav-btn items-center justify-center
-              relative
-              border-b-6 border-[#101016]
-              hover:border-b-0 hover:translate-y-[2px]
-              active:border-b-0 active:translate-y-[4px]"
-      aria-label="Previous section"
+      class="hidden md:flex
+         w-14 h-14
+         bg-gray-800
+         rounded-full
+         transition-all
+         nav-btn items-center justify-center
+         relative
+         border-b-6 border-[#101016]
+         hover:border-b-0 hover:translate-y-[2px]
+         active:border-b-0 active:translate-y-[4px]"
+      aria-label="Next section"
     >
       <svg
         class="w-6 h-6
@@ -85,10 +85,10 @@ import NCF from "../../assets/ncf.svg";
     </button>
   </div>
 
-  <div>
+  <div class="flex-1 relative touch-pan-x" id="sectionsContainer">
     <div id="section-0" class="portfolio-section active">
       <div class="flex flex-col
-          items-center">
+          items-center h-full justify-center">
         <div class="bg-amber-700 rounded-full mb-4">
           <img
             class="object-contain
@@ -114,14 +114,11 @@ import NCF from "../../assets/ncf.svg";
     <!-- Education Section -->
     <div id="section-1" class="portfolio-section">
       <div class="flex flex-col
-          items-center">
-        <h2 class="text-[#fcf5e5] text-[2rem] font-bold text-center">
-          EDUCATION
-        </h2>
+          items-center h-full justify-center">
         <img
           class="object-cover
             w-full max-w-lg h-64
-            rounded-lg"
+            rounded-lg mb-4"
           src={NCF.src}
           alt="NCF Logo"
         />
@@ -141,12 +138,13 @@ import NCF from "../../assets/ncf.svg";
   .portfolio-container {
     position: relative;
     overflow: hidden;
-    min-height: 400px;
+    touch-action: pan-x;
   }
 
   .portfolio-section {
     position: absolute;
     width: 100%;
+    height: 100%;
     opacity: 0;
     transform: translateX(50px);
     transition: all 0.5s ease-in-out;
@@ -175,6 +173,19 @@ import NCF from "../../assets/ncf.svg";
   .dot-indicator:not(.active):hover {
     background-color: rgb(156 163 175);
   }
+
+  /* Mobile touch improvements */
+  @media (max-width: 768px) {
+    .nav-btn {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .nav-btn svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
 </style>
 
 <script>
@@ -188,6 +199,14 @@ import NCF from "../../assets/ncf.svg";
     const dotIndicators = document.querySelectorAll(".dot-indicator");
     const sectionIndicator = document.getElementById("sectionIndicator");
     const sections = document.querySelectorAll(".portfolio-section");
+    const sectionsContainer = document.getElementById("sectionsContainer");
+
+    // Touch/swipe variables
+    let startX = 0;
+    let endX = 0;
+    let startY = 0;
+    let endY = 0;
+    let isScrolling = false;
 
     function showSection(index: number, direction: "next" | "prev" = "next") {
       sections.forEach((section, i) => {
@@ -197,6 +216,7 @@ import NCF from "../../assets/ncf.svg";
           section.classList.add("previous");
         }
       });
+
       setTimeout(() => {
         const currentSectionElement = document.getElementById(
           `section-${index}`
@@ -205,6 +225,7 @@ import NCF from "../../assets/ncf.svg";
           currentSectionElement.classList.add("active");
         }
       }, 50);
+
       dotIndicators.forEach((dot, i) => {
         if (i === index) {
           dot.classList.add("active");
@@ -216,27 +237,76 @@ import NCF from "../../assets/ncf.svg";
           dot.classList.add("bg-gray-500");
         }
       });
+
       if (sectionIndicator) {
         sectionIndicator.textContent = `${index + 1} of ${totalSections} - ${sectionTitles[index]}`;
       }
     }
 
     function goToPrevious() {
-      const oldSection = currentSection;
       currentSection =
         currentSection > 0 ? currentSection - 1 : totalSections - 1;
       showSection(currentSection, "prev");
     }
 
     function goToNext() {
-      const oldSection = currentSection;
       currentSection =
         currentSection < totalSections - 1 ? currentSection + 1 : 0;
       showSection(currentSection, "next");
     }
 
+    // Touch event handlers for mobile swiping
+    function handleTouchStart(e: TouchEvent) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isScrolling = false;
+    }
+
+    function handleTouchMove(e: TouchEvent) {
+      if (!startX || !startY) return;
+
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const diffX = Math.abs(currentX - startX);
+      const diffY = Math.abs(currentY - startY);
+
+      // Determine if user is scrolling vertically or swiping horizontally
+      if (diffY > diffX) {
+        isScrolling = true;
+      }
+    }
+
+    function handleTouchEnd(e: TouchEvent) {
+      if (isScrolling) return; // Don't handle swipe if user was scrolling
+
+      endX = e.changedTouches[0].clientX;
+      endY = e.changedTouches[0].clientY;
+
+      const diffX = startX - endX;
+      const diffY = Math.abs(startY - endY);
+
+      // Only trigger swipe if horizontal movement is greater than vertical
+      if (Math.abs(diffX) > diffY && Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+          // Swiped left - go to next
+          goToNext();
+        } else {
+          // Swiped right - go to previous
+          goToPrevious();
+        }
+      }
+
+      // Reset values
+      startX = 0;
+      endX = 0;
+      startY = 0;
+      endY = 0;
+    }
+
+    // Event listeners
     prevBtn?.addEventListener("click", goToPrevious);
     nextBtn?.addEventListener("click", goToNext);
+
     dotIndicators.forEach((dot, index) => {
       dot.addEventListener("click", () => {
         const direction = index > currentSection ? "next" : "prev";
@@ -244,6 +314,21 @@ import NCF from "../../assets/ncf.svg";
         showSection(currentSection, direction);
       });
     });
+
+    // Touch events for mobile swiping
+    if (sectionsContainer) {
+      sectionsContainer.addEventListener("touchstart", handleTouchStart, {
+        passive: true,
+      });
+      sectionsContainer.addEventListener("touchmove", handleTouchMove, {
+        passive: true,
+      });
+      sectionsContainer.addEventListener("touchend", handleTouchEnd, {
+        passive: true,
+      });
+    }
+
+    // Initialize
     showSection(0);
   });
 </script>

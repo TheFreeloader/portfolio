@@ -50,7 +50,6 @@ export function initializeModal(config: ModalConfig) {
     }
   };
 
-  // Check if modal should be open on initialization
   if (isModalOpen(cardId) && modalContainer) {
     modalContainer.classList.remove("hidden");
     modalContainer.classList.add("visible");
@@ -59,30 +58,19 @@ export function initializeModal(config: ModalConfig) {
 
   if (cardElement && modalContainer && closeModal) {
     cardElement.addEventListener("click", (event) => {
-      console.log(`Card clicked: ${cardId}`);
-      console.log(`Can card be clicked: ${canCardBeClicked(cardId)}`);
-      console.log(`Is modal open: ${isModalOpen(cardId)}`);
-
-      // If THIS modal is already open, just bring it to front
       if (isModalOpen(cardId)) {
-        console.log(`Modal ${cardId} already open, bringing to front`);
         bringToFront();
         event.preventDefault();
         event.stopPropagation();
         return;
       }
 
-      // Check if THIS specific card can be clicked
       if (!canCardBeClicked(cardId)) {
-        console.log(`Card ${cardId} cannot be clicked`);
         event.preventDefault();
         event.stopPropagation();
         return;
       }
 
-      console.log(`Opening modal: ${cardId}`);
-
-      // Open this modal
       setCardClicked(cardId, true);
       setModalOpen(cardId, true);
 
@@ -94,37 +82,36 @@ export function initializeModal(config: ModalConfig) {
       modalContainer.classList.add("visible");
       bringToFront();
 
-      // Reset position
       if (modalContent) {
         modalContent.style.transform = "translate(0px, 0px)";
         xOffset = 0;
         yOffset = 0;
       }
 
-      // Prevent event bubbling to avoid interference with other modals
       event.preventDefault();
       event.stopPropagation();
     });
 
-    // Bring modal to front when clicked
     modalContainer.addEventListener("click", (event) => {
-      bringToFront();
-      event.stopPropagation(); // Prevent interference with other modals
-    });
-
-    modalContainer.addEventListener("touchstart", (event) => {
       bringToFront();
       event.stopPropagation();
     });
+
+    modalContainer.addEventListener(
+      "touchstart",
+      (event) => {
+        bringToFront();
+        event.stopPropagation();
+      },
+      { passive: true }
+    );
 
     modalContainer.addEventListener("mousedown", (event) => {
       bringToFront();
       event.stopPropagation();
     });
 
-    // Close modal
     closeModal.addEventListener("click", (event) => {
-      console.log(`Closing modal: ${cardId}`);
       setCardClicked(cardId, false);
       setModalOpen(cardId, false);
       modalContainer.classList.add("hidden");
@@ -138,10 +125,8 @@ export function initializeModal(config: ModalConfig) {
       event.stopPropagation();
     });
 
-    // Handle ESC key - only close if this modal is the topmost
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && isModalOpen(cardId)) {
-        // Check if this modal is the topmost by comparing z-index
         const allModals = document.querySelectorAll(
           '[id*="modalOverlay"]:not(.hidden)'
         );
@@ -156,7 +141,6 @@ export function initializeModal(config: ModalConfig) {
         });
 
         if (isTopmost) {
-          console.log(`Closing modal via ESC: ${cardId}`);
           setCardClicked(cardId, false);
           setModalOpen(cardId, false);
           modalContainer.classList.add("hidden");
@@ -211,23 +195,23 @@ export function initializeModal(config: ModalConfig) {
 
     isDragging = true;
 
-    // Prevent event bubbling during drag
-    e.preventDefault();
+    if (e.type === "mousedown" || (e.type === "touchstart" && e.cancelable)) {
+      e.preventDefault();
+    }
     e.stopPropagation();
   }
 
   function dragEnd(e: MouseEvent | TouchEvent) {
     isDragging = false;
     modalContent?.classList.remove("dragging");
-
-    // Prevent event bubbling
-    e.preventDefault();
     e.stopPropagation();
   }
 
   function drag(e: MouseEvent | TouchEvent) {
     if (isDragging) {
-      e.preventDefault();
+      if (e.cancelable) {
+        e.preventDefault();
+      }
       e.stopPropagation();
 
       if (e.type === "touchmove") {
@@ -255,7 +239,7 @@ export function initializeModal(config: ModalConfig) {
       passive: false,
     });
     document.addEventListener("mouseup", dragEnd);
-    document.addEventListener("touchend", dragEnd);
+    document.addEventListener("touchend", dragEnd, { passive: true });
     document.addEventListener("mousemove", drag);
     document.addEventListener("touchmove", drag, { passive: false });
   }
