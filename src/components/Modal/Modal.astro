@@ -91,8 +91,8 @@ const {
 
   function initThisModal() {
     import("/scripts/modalHandler.client.js")
-      .then((module) => {
-        module.initializeModal(window[configKey]);
+      .then(() => {
+        window.initializeModal(window[configKey]);
       })
       .catch((error) => {
         console.error(`Failed to load modal handler for ${cardId}:`, error);

@@ -1,246 +1,234 @@
-import {
-  setCardClicked,
-  setModalOpen,
-  isModalOpen,
-  canCardBeClicked,
-} from "../../src/store/store";
+(function () {
+  let globalModalZ = 2000;
 
-let globalModalZ = 2000;
+  function initializeModal(config) {
+    var cardId = config.cardId;
+    var cardElementId = config.cardElementId;
+    var modalOverlayId = config.modalOverlayId;
+    var closeModalId = config.closeModalId;
+    var modalContentId = config.modalContentId;
+    var modalHeaderId = config.modalHeaderId;
+    var excludeFromDrag = config.excludeFromDrag || [];
 
-interface ModalConfig {
-  cardId: string;
-  cardElementId: string;
-  modalOverlayId: string;
-  closeModalId: string;
-  modalContentId: string;
-  modalHeaderId: string;
-  excludeFromDrag?: string[];
-}
+    var cardElement = document.getElementById(cardElementId);
+    var modalContainer = document.getElementById(modalOverlayId);
+    var closeModal = document.getElementById(closeModalId);
+    var modalContent = document.getElementById(modalContentId);
+    var modalHeader = document.getElementById(modalHeaderId);
 
-export function initializeModal(config: ModalConfig) {
-  const {
-    cardId,
-    cardElementId,
-    modalOverlayId,
-    closeModalId,
-    modalContentId,
-    modalHeaderId,
-    excludeFromDrag = [],
-  } = config;
+    var cardInnerElement =
+      cardElement && cardElement.querySelector("[class*='card']");
 
-  const cardElement = document.getElementById(cardElementId);
-  const modalContainer = document.getElementById(modalOverlayId);
-  const closeModal = document.getElementById(closeModalId);
-  const modalContent = document.getElementById(modalContentId);
-  const modalHeader = document.getElementById(modalHeaderId);
+    var isDragging = false;
+    var currentX, currentY, initialX, initialY;
+    var xOffset = 0,
+      yOffset = 0;
 
-  const cardInnerElement = cardElement?.querySelector("[class*='card']");
-
-  let isDragging = false;
-  let currentX: number;
-  let currentY: number;
-  let initialX: number;
-  let initialY: number;
-  let xOffset = 0;
-  let yOffset = 0;
-
-  const bringToFront = () => {
-    if (modalContainer) {
-      modalContainer.style.zIndex = String(globalModalZ++);
+    function bringToFront() {
+      if (modalContainer) {
+        modalContainer.style.zIndex = String(globalModalZ++);
+      }
     }
-  };
 
-  if (isModalOpen(cardId) && modalContainer) {
-    modalContainer.classList.remove("hidden");
-    modalContainer.classList.add("visible");
-    modalContainer.style.zIndex = String(globalModalZ++);
-  }
-
-  if (cardElement && modalContainer && closeModal) {
-    cardElement.addEventListener("click", (event) => {
-      if (isModalOpen(cardId)) {
-        bringToFront();
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      if (!canCardBeClicked(cardId)) {
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      setCardClicked(cardId, true);
-      setModalOpen(cardId, true);
-
-      if (cardInnerElement) {
-        cardInnerElement.classList.add("card-clicked");
-      }
-
+    if (window.isModalOpen && window.isModalOpen(cardId) && modalContainer) {
       modalContainer.classList.remove("hidden");
       modalContainer.classList.add("visible");
+      modalContainer.style.zIndex = String(globalModalZ++);
+    }
+
+    if (cardElement && modalContainer && closeModal) {
+      function openModal(event) {
+        if (window.isModalOpen && window.isModalOpen(cardId)) {
+          bringToFront();
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+
+        if (window.canCardBeClicked && !window.canCardBeClicked(cardId)) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+
+        window.setCardClicked && window.setCardClicked(cardId, true);
+        window.setModalOpen && window.setModalOpen(cardId, true);
+
+        if (cardInnerElement) {
+          cardInnerElement.classList.add("card-clicked");
+        }
+
+        modalContainer.classList.remove("hidden");
+        modalContainer.classList.add("visible");
+        bringToFront();
+
+        if (modalContent) {
+          modalContent.style.transform = "translate(0px, 0px)";
+          xOffset = 0;
+          yOffset = 0;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      cardElement.addEventListener("click", openModal, { passive: false });
+      cardElement.addEventListener("touchstart", openModal, { passive: false });
+
+      modalContainer.addEventListener("click", function (event) {
+        bringToFront();
+        event.stopPropagation();
+      });
+
+      modalContainer.addEventListener(
+        "touchstart",
+        function (event) {
+          bringToFront();
+          event.stopPropagation();
+        },
+        { passive: true }
+      );
+
+      modalContainer.addEventListener("mousedown", function (event) {
+        bringToFront();
+        event.stopPropagation();
+      });
+
+      closeModal.addEventListener("click", function (event) {
+        window.setCardClicked && window.setCardClicked(cardId, false);
+        window.setModalOpen && window.setModalOpen(cardId, false);
+        modalContainer.classList.add("hidden");
+        modalContainer.classList.remove("visible");
+
+        if (cardInnerElement) {
+          cardInnerElement.classList.remove("card-clicked");
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (
+          event.key === "Escape" &&
+          window.isModalOpen &&
+          window.isModalOpen(cardId)
+        ) {
+          var allModals = document.querySelectorAll(
+            '[id*="modalOverlay"]:not(.hidden)'
+          );
+          var isTopmost = true;
+          var currentZIndex = parseInt(modalContainer.style.zIndex || "0");
+
+          allModals.forEach(function (modal) {
+            var zIndex = parseInt(modal.style.zIndex || "0");
+            if (zIndex > currentZIndex) {
+              isTopmost = false;
+            }
+          });
+
+          if (isTopmost) {
+            window.setCardClicked && window.setCardClicked(cardId, false);
+            window.setModalOpen && window.setModalOpen(cardId, false);
+            modalContainer.classList.add("hidden");
+            modalContainer.classList.remove("visible");
+
+            if (cardInnerElement) {
+              cardInnerElement.classList.remove("card-clicked");
+            }
+          }
+        }
+      });
+    }
+
+    function dragStart(e) {
+      if (
+        !(
+          e.target === modalHeader ||
+          (e.target instanceof Element && e.target.closest(".modal_header"))
+        )
+      ) {
+        return;
+      }
+
+      var defaultExclusions = [".close_button", "INPUT", "TEXTAREA", "BUTTON"];
+      var allExclusions = defaultExclusions.concat(excludeFromDrag);
+
+      for (var i = 0; i < allExclusions.length; i++) {
+        var exclusion = allExclusions[i];
+        if (e.target instanceof Element) {
+          if (exclusion.charAt(0) === ".") {
+            if (e.target.closest(exclusion)) return;
+          } else {
+            if (e.target.tagName === exclusion) return;
+          }
+        }
+      }
+
       bringToFront();
 
       if (modalContent) {
-        modalContent.style.transform = "translate(0px, 0px)";
-        xOffset = 0;
-        yOffset = 0;
+        modalContent.classList.add("dragging");
       }
 
-      event.preventDefault();
-      event.stopPropagation();
-    });
-
-    modalContainer.addEventListener("click", (event) => {
-      bringToFront();
-      event.stopPropagation();
-    });
-
-    modalContainer.addEventListener(
-      "touchstart",
-      (event) => {
-        bringToFront();
-        event.stopPropagation();
-      },
-      { passive: true }
-    );
-
-    modalContainer.addEventListener("mousedown", (event) => {
-      bringToFront();
-      event.stopPropagation();
-    });
-
-    closeModal.addEventListener("click", (event) => {
-      setCardClicked(cardId, false);
-      setModalOpen(cardId, false);
-      modalContainer.classList.add("hidden");
-      modalContainer.classList.remove("visible");
-
-      if (cardInnerElement) {
-        cardInnerElement.classList.remove("card-clicked");
+      if (e.type === "touchstart") {
+        initialX = e.touches[0].clientX - xOffset;
+        initialY = e.touches[0].clientY - yOffset;
+      } else {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
       }
 
-      event.preventDefault();
-      event.stopPropagation();
-    });
+      isDragging = true;
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && isModalOpen(cardId)) {
-        const allModals = document.querySelectorAll(
-          '[id*="modalOverlay"]:not(.hidden)'
-        );
-        let isTopmost = true;
-        let currentZIndex = parseInt(modalContainer.style.zIndex || "0");
-
-        allModals.forEach((modal) => {
-          const zIndex = parseInt((modal as HTMLElement).style.zIndex || "0");
-          if (zIndex > currentZIndex) {
-            isTopmost = false;
-          }
-        });
-
-        if (isTopmost) {
-          setCardClicked(cardId, false);
-          setModalOpen(cardId, false);
-          modalContainer.classList.add("hidden");
-          modalContainer.classList.remove("visible");
-
-          if (cardInnerElement) {
-            cardInnerElement.classList.remove("card-clicked");
-          }
-        }
-      }
-    });
-  }
-
-  function dragStart(e: MouseEvent | TouchEvent) {
-    if (
-      !(
-        e.target === modalHeader ||
-        (e.target instanceof Element && e.target.closest(".modal_header"))
-      )
-    ) {
-      return;
-    }
-
-    const defaultExclusions = [".close_button", "INPUT", "TEXTAREA", "BUTTON"];
-    const allExclusions = [...defaultExclusions, ...excludeFromDrag];
-
-    for (const exclusion of allExclusions) {
-      if (e.target instanceof Element) {
-        if (exclusion.startsWith(".")) {
-          if (e.target.closest(exclusion)) return;
-        } else {
-          if (e.target.tagName === exclusion) return;
-        }
-      }
-    }
-
-    bringToFront();
-
-    if (modalContent) {
-      modalContent.classList.add("dragging");
-    }
-
-    if (e.type === "touchstart") {
-      const touchEvent = e as TouchEvent;
-      initialX = touchEvent.touches[0].clientX - xOffset;
-      initialY = touchEvent.touches[0].clientY - yOffset;
-    } else {
-      const mouseEvent = e as MouseEvent;
-      initialX = mouseEvent.clientX - xOffset;
-      initialY = mouseEvent.clientY - yOffset;
-    }
-
-    isDragging = true;
-
-    if (e.type === "mousedown" || (e.type === "touchstart" && e.cancelable)) {
-      e.preventDefault();
-    }
-    e.stopPropagation();
-  }
-
-  function dragEnd(e: MouseEvent | TouchEvent) {
-    isDragging = false;
-    modalContent?.classList.remove("dragging");
-    e.stopPropagation();
-  }
-
-  function drag(e: MouseEvent | TouchEvent) {
-    if (isDragging) {
-      if (e.cancelable) {
+      if (e.type === "mousedown" || (e.type === "touchstart" && e.cancelable)) {
         e.preventDefault();
       }
       e.stopPropagation();
+    }
 
-      if (e.type === "touchmove") {
-        const touchEvent = e as TouchEvent;
-        currentX = touchEvent.touches[0].clientX - initialX;
-        currentY = touchEvent.touches[0].clientY - initialY;
-      } else {
-        const mouseEvent = e as MouseEvent;
-        currentX = mouseEvent.clientX - initialX;
-        currentY = mouseEvent.clientY - initialY;
+    function dragEnd(e) {
+      isDragging = false;
+      if (modalContent) modalContent.classList.remove("dragging");
+      e.stopPropagation();
+    }
+
+    function drag(e) {
+      if (isDragging) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        e.stopPropagation();
+
+        if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        } else {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        }
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        if (modalContent) {
+          modalContent.style.transform =
+            "translate(" + currentX + "px, " + currentY + "px)";
+        }
       }
+    }
 
-      xOffset = currentX;
-      yOffset = currentY;
-
-      if (modalContent) {
-        modalContent.style.transform = `translate(${currentX}px, ${currentY}px)`;
-      }
+    if (modalContent) {
+      modalContent.addEventListener("mousedown", dragStart);
+      modalContent.addEventListener("touchstart", dragStart, {
+        passive: false,
+      });
+      document.addEventListener("mouseup", dragEnd);
+      document.addEventListener("touchend", dragEnd, { passive: true });
+      document.addEventListener("mousemove", drag);
+      document.addEventListener("touchmove", drag, { passive: false });
     }
   }
 
-  if (modalContent) {
-    modalContent.addEventListener("mousedown", dragStart);
-    modalContent.addEventListener("touchstart", dragStart, {
-      passive: false,
-    });
-    document.addEventListener("mouseup", dragEnd);
-    document.addEventListener("touchend", dragEnd, { passive: true });
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("touchmove", drag, { passive: false });
-  }
-}
+  window.initializeModal = initializeModal;
+})();
