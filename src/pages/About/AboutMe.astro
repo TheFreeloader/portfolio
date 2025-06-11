@@ -201,30 +201,22 @@ import NCF from "../../assets/ncf.svg";
     const sections = document.querySelectorAll(".portfolio-section");
     const sectionsContainer = document.getElementById("sectionsContainer");
 
-    // Touch/swipe variables
     let startX = 0;
     let endX = 0;
     let startY = 0;
     let endY = 0;
     let isScrolling = false;
 
-    function showSection(index: number, direction: "next" | "prev" = "next") {
+    function showSection(index: number, direction: string = "next") {
       sections.forEach((section, i) => {
         section.classList.remove("active", "previous");
-
-        if (i < index) {
-          section.classList.add("previous");
-        }
+        if (i < index) section.classList.add("previous");
       });
 
-      setTimeout(() => {
-        const currentSectionElement = document.getElementById(
-          `section-${index}`
-        );
-        if (currentSectionElement) {
-          currentSectionElement.classList.add("active");
-        }
-      }, 50);
+      const currentSectionElement = document.getElementById(`section-${index}`);
+      if (currentSectionElement) {
+        currentSectionElement.classList.add("active");
+      }
 
       dotIndicators.forEach((dot, i) => {
         if (i === index) {
@@ -255,7 +247,6 @@ import NCF from "../../assets/ncf.svg";
       showSection(currentSection, "next");
     }
 
-    // Touch event handlers for mobile swiping
     function handleTouchStart(e: TouchEvent) {
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
@@ -264,46 +255,29 @@ import NCF from "../../assets/ncf.svg";
 
     function handleTouchMove(e: TouchEvent) {
       if (!startX || !startY) return;
-
       const currentX = e.touches[0].clientX;
       const currentY = e.touches[0].clientY;
       const diffX = Math.abs(currentX - startX);
       const diffY = Math.abs(currentY - startY);
-
-      // Determine if user is scrolling vertically or swiping horizontally
-      if (diffY > diffX) {
-        isScrolling = true;
-      }
+      if (diffY > diffX) isScrolling = true;
     }
 
     function handleTouchEnd(e: TouchEvent) {
-      if (isScrolling) return; // Don't handle swipe if user was scrolling
-
+      if (isScrolling) return;
       endX = e.changedTouches[0].clientX;
       endY = e.changedTouches[0].clientY;
-
       const diffX = startX - endX;
       const diffY = Math.abs(startY - endY);
-
-      // Only trigger swipe if horizontal movement is greater than vertical
       if (Math.abs(diffX) > diffY && Math.abs(diffX) > 50) {
-        if (diffX > 0) {
-          // Swiped left - go to next
-          goToNext();
-        } else {
-          // Swiped right - go to previous
-          goToPrevious();
-        }
+        if (diffX > 0) goToNext();
+        else goToPrevious();
       }
-
-      // Reset values
       startX = 0;
       endX = 0;
       startY = 0;
       endY = 0;
     }
 
-    // Event listeners
     prevBtn?.addEventListener("click", goToPrevious);
     nextBtn?.addEventListener("click", goToNext);
 
@@ -315,7 +289,6 @@ import NCF from "../../assets/ncf.svg";
       });
     });
 
-    // Touch events for mobile swiping
     if (sectionsContainer) {
       sectionsContainer.addEventListener("touchstart", handleTouchStart, {
         passive: true,
@@ -328,7 +301,6 @@ import NCF from "../../assets/ncf.svg";
       });
     }
 
-    // Initialize
     showSection(0);
   });
 </script>
