@@ -89,26 +89,17 @@
       function cancelPress(event) {
         if (pressTimer) clearTimeout(pressTimer);
       }
-
-      // Remove direct click/touchstart open
-      // cardElement.addEventListener("click", openModal, { passive: false });
-      // cardElement.addEventListener("touchstart", openModal, { passive: false });
-
-      // Long press events
-      cardElement.addEventListener("touchstart", startPress, {
-        passive: false,
-      });
+      
+      // Touch devices: long press to open
+      cardElement.addEventListener("touchstart", startPress, { passive: false });
       cardElement.addEventListener("touchend", cancelPress);
       cardElement.addEventListener("touchmove", cancelPress);
-      cardElement.addEventListener("mousedown", startPress);
-      cardElement.addEventListener("mouseup", cancelPress);
-      cardElement.addEventListener("mouseleave", cancelPress);
-
-      // Prevent modal on normal tap/click
+      
+      // Desktop: instant click to open
       cardElement.addEventListener("click", function (e) {
-        if (!isLongPress) {
-          e.stopPropagation();
-          e.preventDefault();
+        // Only trigger on desktop (non-touch)
+        if (!("ontouchstart" in window)) {
+          openModal(e);
         }
       });
 
