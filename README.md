@@ -25,5 +25,3 @@ A modern, high-performance portfolio website built with Astro, featuring seamles
 ## 🙋‍♂️ Contact
 
 Cyryl John Navarro - [cyjnavarro@gmail.com](mailto:cyjnavarro@gmail.com)
-
-Project Link: [https://github.com/TheFreeloader/portfolio](https://github.com/TheFreeloader/portfolio)
